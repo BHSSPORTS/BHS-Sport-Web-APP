@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Statistics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="../safe-zone.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        background-color: #f4f6f9;
+        font-family: "Poppins", Arial, sans-serif;
+        color: #333;
+      }
+
+      h1.title {
+        color: #cf0553;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .section {
+        padding: 30px 20px;
+      }
+
+      .filters-container {
+        margin: 20px auto;
+        max-width: 800px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .filters .filter-row {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .filters label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #555;
+      }
+
+      .filters input,
+      .filters select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        width: 100%;
+      }
+
+      .filters button {
+        background-color: #cf0553;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .filters button:hover {
+        background-color: #a90443;
+      }
+
+      .stats-section {
+        margin: 20px auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .stat-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        flex: 1;
+      }
+
+      .highlight-card {
+        margin: 20px auto;
+        max-width: 800px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+      }
+
+      .highlight-card .card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .highlight-card .card h3 {
+        font-size: 1.2rem;
+        color: #cf0553;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .highlight-card .card p {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .table-container {
+        margin-top: 30px;
+      }
+
+      .table th {
+        background-color: #cf0553;
+        color: white !important;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .table td {
+        text-align: center;
+      }
+
+      .hero {
+        background-image: url('https://www.barrowhills.org/wp-content/uploads/2024/12/Tina-Bolton-Barrow-Hills-768x768.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        color: white;
+        min-height: 150px;
+        max-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 0;
+      }
+
+      .hero-body {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .hero .title,
+      .hero .subtitle {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero is-large">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title has-text-white">Coaching Staff Statistics</h1>
+          <p class="subtitle has-text-white">
+            Analyse teachers fixture results
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Filters Container -->
+      <div class="filters-container">
+        <div class="filters">
+          <div class="filter-row">
+            <div style="flex: 1;">
+              <label for="startDate">Start Date:</label>
+              <input type="date" id="startDate" />
+            </div>
+            <div style="flex: 1;">
+              <label for="endDate">End Date:</label>
+              <input type="date" id="endDate" />
+            </div>
+          </div>
+          <div class="filter-row">
+            <div style="flex: 1;">
+              <label for="sportFilter">Sport:</label>
+              <select id="sportFilter">
+                <option value="">All Sports</option>
+              </select>
+            </div>
+            <div style="flex: 1;">
+              <label for="genderFilter">Gender:</label>
+              <select id="genderFilter">
+                <option value="">Both</option>
+                <option value="Boys">Boys</option>
+                <option value="Girls">Girls</option>
+              </select>
+            </div>
+          </div>
+          <div class="filter-row" style="justify-content: center;">
+            <button onclick="applyDateFilter()">Filter</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlight Cards -->
+      <div class="highlight-card">
+        <div class="card" id="mostWins">
+          <h3>Teacher with Most Wins</h3>
+          <p><strong id="mostWinsName">Loading...</strong></p>
+          <p>Wins: <span id="mostWinsCount">0</span></p>
+        </div>
+        <div class="card" id="bestWinPercentage">
+          <h3>Teacher with Best Win Percentage</h3>
+          <p><strong id="bestWinPercentageName">Loading...</strong></p>
+          <p>Win %: <span id="bestWinPercentageValue">0%</span></p>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-section" id="staff-summary"></div>
+
+      <!-- Results Table -->
+      <div class="table-container">
+        <h2 class="title is-4">Staff Match Results</h2>
+        <table class="table is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Staff</th>
+              <th>Total Matches</th>
+              <th>Wins</th>
+              <th>Losses</th>
+              <th>Draws</th>
+              <th>Win Percentage</th>
+            </tr>
+          </thead>
+          <tbody id="staff-results"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const SHEET_API_URL =
+        "https://script.google.com/macros/s/AKfycbzDhVb7Z4AF8Fbj67_MqJuHXUK7oMKfzEiTMzUIZhYtzMU_cIbOVFJPfVYki_mb25RlEA/exec?type=fixtureResults";
+
+      let allData = [];
+
+      async function fetchData() {
+        try {
+          const response = await fetch(SHEET_API_URL);
+          if (!response.ok) throw new Error("Failed to fetch data.");
+          allData = await response.json();
+          populateSportFilter(allData);
+          renderStaffStats(allData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          alert("Unable to load data. Please try again.");
+        }
+      }
+
+      function populateSportFilter(data) {
+        const sportFilter = document.getElementById("sportFilter");
+        const sports = [...new Set(data.map(row => row.Sport).filter(Boolean))];
+        sportFilter.innerHTML = '<option value="">All Sports</option>' + sports.map(sport => `<option value="${sport}">${sport}</option>`).join("");
+      }
+
+      function applyDateFilter() {
+        const startDate = new Date(document.getElementById("startDate").value);
+        const endDate = new Date(document.getElementById("endDate").value);
+        const sportFilter = document.getElementById("sportFilter").value;
+        const genderFilter = document.getElementById("genderFilter").value;
+
+        let filteredData = allData;
+
+        if (!isNaN(startDate) && !isNaN(endDate)) {
+          filteredData = filteredData.filter((row) => {
+            const fixtureDate = new Date(row["Date of Fixture"]);
+            return fixtureDate >= startDate && fixtureDate <= endDate;
+          });
+        }
+
+        if (sportFilter) {
+          filteredData = filteredData.filter((row) => row.Sport === sportFilter);
+        }
+
+        if (genderFilter) {
+          filteredData = filteredData.filter((row) => row.Gender === genderFilter);
+        }
+
+        renderStaffStats(filteredData);
+      }
+
+      function renderStaffStats(data) {
+        const staffStats = {};
+
+        data.forEach((row) => {
+          const staff = row.Staff || "Unknown";
+          const result = row.Result;
+
+          if (!staffStats[staff]) {
+            staffStats[staff] = { total: 0, wins: 0, losses: 0, draws: 0 };
+          }
+
+          staffStats[staff].total++;
+          if (result === "Win") staffStats[staff].wins++;
+          else if (result === "Loss") staffStats[staff].losses++;
+          else if (result === "Draw") staffStats[staff].draws++;
+        });
+
+        // Highlight Cards
+const sortedStats = Object.entries(staffStats).sort(([, a], [, b]) => b.wins - a.wins);
+const mostWins = sortedStats.filter(([, stats]) => stats.wins === sortedStats[0][1].wins);
+
+// Calculate Best Win Percentage
+const bestWinPercentage = Object.entries(staffStats)
+  .filter(([, stats]) => stats.total > 0) // Include only staff with matches
+  .sort(([, a], [, b]) => (b.wins / b.total) - (a.wins / a.total)); // Sort by win percentage
+
+if (bestWinPercentage.length > 0) {
+  const highestWinPercentage = bestWinPercentage[0][1].wins / bestWinPercentage[0][1].total;
+  const tiedWinPercentage = bestWinPercentage.filter(
+    ([, stats]) => (stats.wins / stats.total) === highestWinPercentage
+  );
+
+  document.getElementById("mostWinsName").innerText = mostWins.map(([name]) => name).join(", ");
+  document.getElementById("mostWinsCount").innerText = mostWins[0][1].wins;
+
+  document.getElementById("bestWinPercentageName").innerText = tiedWinPercentage.map(([name]) => name).join(", ");
+  document.getElementById("bestWinPercentageValue").innerText = Math.floor(highestWinPercentage * 100) + "%";
+} else {
+  document.getElementById("bestWinPercentageName").innerText = "N/A";
+  document.getElementById("bestWinPercentageValue").innerText = "0%";
+}
+
+        // Render Leaderboard
+        const tbody = document.getElementById("staff-results");
+        tbody.innerHTML = "";
+
+        Object.entries(staffStats)
+          .sort(([, a], [, b]) => b.wins / b.total - a.wins / a.total) // Sort by win percentage descending
+          .forEach(([staff, stats]) => {
+            const winPercentage = Math.floor((stats.wins / stats.total) * 100); // No decimal places
+
+            tbody.innerHTML += `
+              <tr>
+                <td>${staff}</td>
+                <td>${stats.total}</td>
+                <td>${stats.wins}</td>
+                <td>${stats.losses}</td>
+                <td>${stats.draws}</td>
+                <td>${winPercentage}%</td>
+              </tr>
+            `;
+          });
+
+        renderSummaryCards(staffStats);
+      }
+
+      function renderSummaryCards(staffStats) {
+        const totalMatches = Object.values(staffStats).reduce((acc, stats) => acc + stats.total, 0);
+        const totalWins = Object.values(staffStats).reduce((acc, stats) => acc + stats.wins, 0);
+        const totalLosses = Object.values(staffStats).reduce((acc, stats) => acc + stats.losses, 0);
+        const totalDraws = Object.values(staffStats).reduce((acc, stats) => acc + stats.draws, 0);
+
+        document.getElementById("staff-summary").innerHTML = `
+          <div class="stat-card">
+            <strong>Total Matches:</strong> ${totalMatches}
+          </div>
+          <div class="stat-card" style="color: #28a745;">
+            <strong>Total Wins:</strong> ${totalWins}
+          </div>
+          <div class="stat-card" style="color: #dc3545;">
+            <strong>Total Losses:</strong> ${totalLosses}
+          </div>
+          <div class="stat-card" style="color: #ffc107;">
+            <strong>Total Draws:</strong> ${totalDraws}
+          </div>
+        `;
+      }
+
+      fetchData();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team-Specific Match Statistics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="../safe-zone.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+      body {
+        background-color: #f4f6f9;
+        font-family: "Poppins", Arial, sans-serif;
+        color: #333;
+      }
+
+      h1.title {
+        color: #cf0553;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .section {
+        padding: 30px 20px;
+      }
+
+      .filters {
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .stats-section {
+        margin: 20px auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .stat-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        flex: 1;
+      }
+
+      .chart-container {
+        background: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .table-container {
+        margin-top: 30px;
+      }
+
+      .table th {
+        background-color: #cf0553;
+        color: white !important; /* Force white color */
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .table td {
+        text-align: center;
+      }
+.hero {
+    background-image: url('https://www.barrowhills.org/wp-content/uploads/2024/12/Barrow-Hills-266-1560x877.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    min-height: 150px; /* Minimum height for the section */
+    max-height: 200px; /* Maximum height to ensure it doesn't get too large */
+    display: flex; /* Flexbox for centering content */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    overflow: hidden; /* Ensures content doesn't overflow beyond max-height */
+}
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for better text visibility */
+    z-index: 0;
+  }
+
+  .hero-body {
+    position: relative;
+    z-index: 1; /* Ensure content is above the overlay */
+text-align: center; /* Center text */
+    padding: 10px; /* Minimal padding for spacing */
+  }
+
+  .hero .title,
+  .hero .subtitle {
+    color: white;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds a subtle shadow for better readability */
+  }
+
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+<section class="hero is-large">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title has-text-white">Team-Specific Match Statistics</h1>
+      <p class="subtitle has-text-white">
+        Select a team to view detailed statistics
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+  <div class="container">
+      <!-- Filters -->
+      <div class="filters">
+        <div class="select">
+          <select id="genderFilter">
+            <option value="Boys">Boys</option>
+            <option value="Girls">Girls</option>
+          </select>
+        </div>
+        <div class="select">
+  <select id="sportFilter">
+    <option value="">All Sports</option>
+  </select>
+</div>
+        <div class="select">
+          <select id="teamFilter"></select>
+        </div>
+      </div>
+
+      <!-- Stats Summary -->
+      <div class="stats-section" id="team-summary"></div>
+
+      <!-- Charts -->
+      <div class="stats-section">
+        <div class="chart-container">
+          <canvas id="teamHomeAwayChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="teamWinLossChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="table-container">
+        <h2 class="title is-4">Match Results</h2>
+        <table class="table is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Date of Fixture</th>
+              <th>Sport</th>
+              <th>Opposition</th>
+              <th>Match Location</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="team-results"></tbody>
+        </table>
+      </div>
+<div style="text-align: center; margin-top: 20px;">
+  <button
+    class="button"
+    style="background-color: #cf0553; color: white; border: none;"
+    onclick="downloadPDF()"
+  >
+    Download PDF
+  </button>
+</div>
+</div>
+
+<!-- Match Details Modal -->
+<div id="matchModal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <h3 class="title is-4" id="modalTitle">Match Details</h3>
+      <p><strong>Date of Fixture:</strong> <span id="modalDate"></span></p>
+      <p><strong>Sport:</strong> <span id="modalSport"></span></p>
+      <p><strong>Opposition:</strong> <span id="modalOpposition"></span></p>
+      <p><strong>Match Location:</strong> <span id="modalLocation"></span></p>
+      <p><strong>Result:</strong> <span id="modalResult"></span></p>
+      <p><strong>Score:</strong> <span id="modalScore"></span></p>
+      <p><strong>Additional Information:</strong> <span id="modalAdditionalInfo"></span></p>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+</div>
+
+    </div>
+
+    <script>
+      const SHEET_API_URL =
+        "https://script.google.com/macros/s/AKfycbzDhVb7Z4AF8Fbj67_MqJuHXUK7oMKfzEiTMzUIZhYtzMU_cIbOVFJPfVYki_mb25RlEA/exec?type=fixtureResults";
+
+      let allData = [];
+      let homeAwayChart, winLossChart;
+
+      async function fetchData() {
+        try {
+          const response = await fetch(SHEET_API_URL);
+          if (!response.ok) throw new Error("Failed to fetch data.");
+          allData = await response.json();
+          populateTeamFilter();
+        } catch (error) {
+          console.error(error);
+          alert("Unable to load data. Please try again.");
+        }
+      }
+function populateSportFilter() {
+  const genderFilter = document.getElementById("genderFilter").value;
+  const sportFilter = document.getElementById("sportFilter");
+
+  // Get unique sports based on the selected gender
+  const sports = [
+    ...new Set(
+      allData
+        .filter((row) => row.Gender === genderFilter)
+        .map((row) => row.Sport)
+    ),
+  ];
+
+  // Populate the Sport dropdown
+  sportFilter.innerHTML =
+    '<option value="">All Sports</option>' +
+    sports
+      .map(
+        (sport) =>
+          `<option value="${sport}">${sport}</option>`
+      )
+      .join("");
+
+  // Call the team filter function to reflect sport changes
+  populateTeamFilter();
+}
+
+      function populateTeamFilter() {
+  const genderFilter = document.getElementById("genderFilter").value;
+  const sportFilter = document.getElementById("sportFilter").value;
+  const teamFilter = document.getElementById("teamFilter");
+
+  // Filter teams based on Gender and Sport
+  const teams = [
+    ...new Set(
+      allData
+        .filter(
+          (row) =>
+            row.Gender === genderFilter &&
+            (sportFilter === "" || row.Sport === sportFilter) // Include all sports if none selected
+        )
+        .map((row) => row.Team)
+    ),
+  ];
+
+  // Populate the Team dropdown
+  teamFilter.innerHTML = teams
+    .map(
+      (team, index) =>
+        `<option value="${team}" ${
+          index === 0 ? "selected" : ""
+        }>${team}</option>`
+    )
+    .join("");
+
+  // Update the team stats to reflect changes
+  updateTeamStats();
+}
+
+      function updateTeamStats() {
+        const gender = document.getElementById("genderFilter").value;
+        const team = document.getElementById("teamFilter").value;
+
+        const filteredData = allData.filter(row => row.Gender === gender && row.Team === team);
+
+        renderTeamSummaryStats(filteredData);
+        renderTeamHomeAwayChart(filteredData);
+        renderTeamWinLossChart(filteredData);
+        renderTeamResultsTable(filteredData);
+      }
+
+      function renderTeamSummaryStats(data) {
+        const total = data.length;
+        const wins = data.filter(row => row.Result === "Win").length;
+        const losses = data.filter(row => row.Result === "Loss").length;
+        const draws = data.filter(row => row.Result === "Draw").length;
+
+        document.getElementById("team-summary").innerHTML = `
+          <div class="stat-card"><strong>Total Matches:</strong> ${total}</div>
+          <div class="stat-card" style="color: #28a745;"><strong>Wins:</strong> ${wins}</div>
+          <div class="stat-card" style="color: #dc3545;"><strong>Losses:</strong> ${losses}</div>
+          <div class="stat-card" style="color: #ffc107;"><strong>Draws:</strong> ${draws}</div>
+        `;
+      }
+
+      function renderTeamHomeAwayChart(data) {
+        const ctx = document.getElementById("teamHomeAwayChart").getContext("2d");
+        const homeCount = data.filter(row => row["Match Location"] === "Home").length;
+        const awayCount = data.filter(row => row["Match Location"] === "Away").length;
+
+        const total = homeCount + awayCount;
+        const homePercentage = total ? ((homeCount / total) * 100).toFixed(2) : 0;
+        const awayPercentage = total ? ((awayCount / total) * 100).toFixed(2) : 0;
+
+        if (homeAwayChart) homeAwayChart.destroy();
+
+        homeAwayChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Home", "Away"],
+            datasets: [
+              {
+                label: "Home vs Away Matches",
+                data: [homePercentage, awayPercentage],
+                backgroundColor: ["#007bff", "#ffc107"],
+              },
+            ],
+          },
+          options: {
+            plugins: { title: { display: true, text: "Home vs Away Matches" } },
+            responsive: true,
+          },
+        });
+      }
+
+      function renderTeamWinLossChart(data) {
+        const ctx = document.getElementById("teamWinLossChart").getContext("2d");
+        const wins = data.filter(row => row.Result === "Win").length;
+        const losses = data.filter(row => row.Result === "Loss").length;
+        const draws = data.filter(row => row.Result === "Draw").length;
+
+        if (winLossChart) winLossChart.destroy();
+
+        winLossChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Wins", "Losses", "Draws"],
+            datasets: [
+              {
+                label: "Wins, Losses, and Draws",
+                data: [wins, losses, draws],
+                backgroundColor: ["#28a745", "#dc3545", "#ffc107"],
+              },
+            ],
+          },
+          options: {
+            plugins: { title: { display: true, text: "Wins, Losses, and Draws" } },
+            responsive: true,
+          },
+        });
+      }
+
+      function renderTeamResultsTable(data) {
+  const tbody = document.getElementById("team-results");
+
+// Sort data by date in descending order
+  data.sort((a, b) => {
+    const dateA = new Date(a["Date of Fixture"]);
+    const dateB = new Date(b["Date of Fixture"]);
+    return dateB - dateA; // Descending order
+  });
+
+  tbody.innerHTML = data
+    .map((row, index) => {
+      const formattedDate = formatDate(row["Date of Fixture"]);
+      return `
+        <tr onclick="showModal(${index})" style="cursor: pointer;">
+          <td>${formattedDate || "N/A"}</td>
+          <td>${row.Sport || "N/A"}</td>
+          <td>${row.Opposition || "N/A"}</td>
+          <td>${row["Match Location"] || "N/A"}</td>
+          <td>${row.Result || "N/A"}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  // Attach match data to window for easy access
+  window.matchData = data;
+}
+
+
+function showMatchDetails(index) {
+  const row = window.currentData[index]; // Retrieve the data for the clicked row
+
+  // Populate modal fields
+  document.getElementById("modalTitle").innerText = "Match Details: " + (row.Team || "N/A");
+  document.getElementById("modalDate").innerText = formatDate(row["Date of Fixture"]);
+  document.getElementById("modalSport").innerText = row.Sport || "N/A";
+  document.getElementById("modalOpposition").innerText = row.Opposition || "N/A";
+  document.getElementById("modalLocation").innerText = row["Match Location"] || "N/A";
+  document.getElementById("modalResult").innerText = row.Result || "N/A";
+
+  // Show the modal
+  document.getElementById("matchModal").classList.add("is-active");
+}
+
+
+// Utility function to format the date properly
+function formatDate(dateString) {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+
+  if (isNaN(date)) return "N/A"; // Handle invalid dates
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`; // DD/MM/YYYY format
+}
+      document
+  .getElementById("genderFilter")
+  .addEventListener("change", populateSportFilter); // Triggers sport dropdown update
+document
+  .getElementById("sportFilter")
+  .addEventListener("change", populateTeamFilter); // Triggers team dropdown update
+document
+  .getElementById("teamFilter")
+  .addEventListener("change", updateTeamStats);
+
+
+      fetchData().then(() => {
+  populateSportFilter(); // Initialize Sport and Team dropdowns
+});
+function closeModal() {
+  document.getElementById("matchModal").classList.remove("is-active");
+}
+function showModal(index) {
+  const match = window.matchData[index];
+
+  // Populate modal fields with data
+  document.getElementById("modalDate").textContent = formatDate(match["Date of Fixture"]);
+  document.getElementById("modalSport").textContent = match.Sport || "N/A";
+  document.getElementById("modalOpposition").textContent = match.Opposition || "N/A";
+  document.getElementById("modalLocation").textContent = match["Match Location"] || "N/A";
+  document.getElementById("modalResult").textContent = match.Result || "N/A";
+  document.getElementById("modalScore").textContent = match.Score || "N/A";
+  document.getElementById("modalAdditionalInfo").textContent = match["Additional Information"] || "N/A";
+
+  // Show the modal
+  document.getElementById("matchModal").classList.add("is-active");
+}
+
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Title Section
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor(44, 62, 80); // Dark gray
+  doc.text("Team-Specific Match Statistics", 105, 20, null, null, "center");
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+  doc.setTextColor(100);
+  const today = new Date();
+  const dateString = today.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+  doc.text(`Generated on: ${dateString}`, 105, 28, null, null, "center");
+
+  // Filters Summary
+  const gender = document.getElementById("genderFilter").value || "N/A";
+  const sport = document.getElementById("sportFilter").value || "All Sports";
+  const team = document.getElementById("teamFilter").value || "N/A";
+
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(44, 62, 80);
+  doc.text("Filters Summary", 20, 40);
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(100);
+  doc.text(`Gender: ${gender}`, 20, 50);
+  doc.text(`Sport: ${sport}`, 20, 60);
+  doc.text(`Team: ${team}`, 20, 70);
+
+  // Add a horizontal line
+  doc.setDrawColor(150);
+  doc.line(20, 75, 190, 75);
+
+  // Summary Statistics
+  const statsDiv = document.getElementById("team-summary");
+  const stats = statsDiv.querySelectorAll(".stat-card");
+  let yPos = 85;
+
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(44, 62, 80);
+  doc.text("Summary Statistics", 20, yPos);
+
+  yPos += 10;
+  stats.forEach((stat) => {
+    const text = stat.innerText;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100);
+    doc.text(text, 25, yPos);
+    yPos += 10;
+  });
+
+  // Add another horizontal line
+  doc.setDrawColor(150);
+  doc.line(20, yPos, 190, yPos);
+
+  // Match Results Table
+  yPos += 10;
+  const headers = [...document.querySelectorAll(".table th")].map((th) =>
+    th.innerText.trim()
+  );
+  const rows = [...document.querySelectorAll(".table tbody tr")].map((tr) =>
+    [...tr.children].map((td) => td.innerText.trim())
+  );
+
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(44, 62, 80);
+  doc.text("Match Results", 20, yPos);
+
+  doc.autoTable({
+    startY: yPos + 10,
+    head: [headers],
+    body: rows,
+    theme: "grid", // Professional grid theme
+    headStyles: {
+      fillColor: [207, 5, 83], // Matching your theme
+      textColor: 255,
+      fontSize: 12,
+      fontStyle: "bold",
+    },
+    styles: {
+      fontSize: 10,
+      cellPadding: 4,
+    },
+    bodyStyles: {
+      textColor: 44, // Dark gray
+    },
+  });
+
+  // Footer
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Page ${i} of ${pageCount}`, 105, 290, null, null, "center");
+  }
+
+  // Save the PDF
+  const fileName = team ? `${team}_Match_Statistics.pdf` : "Match_Statistics.pdf";
+  doc.save(fileName);
+}
+
+    </script>
+  </body>
+</html>

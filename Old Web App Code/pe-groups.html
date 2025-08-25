@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sports Hub" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#cf0553" />
+    <meta name="msapplication-TileColor" content="#cf0553" />
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png" />
+    
+    <!-- Additional iOS PWA meta tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-orientations" content="portrait" />
+    
+    <title>PE Groups - BHS Sports Hub</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png" />
+    
+    <!-- Splash Screens for iOS -->
+    <link rel="apple-touch-startup-image" href="splash-screens/splash-390x844.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-375x667.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-414x896.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="splash-screens/splash-428x926.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px)" href="splash-screens/splash-768x1024.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px)" href="splash-screens/splash-1024x1366.png">
+    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="safe-zone.css" />
+    
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar.css" />
+    
+    <!-- Navbar Loader Script -->
+    <script src="config.js"></script>
+    <script src="navbar-loader.js"></script>
+    
+    <!-- Google Authentication JavaScript -->
+    <script src="google-auth.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+      }
+
+
+
+
+
+      .hero {
+        background-image: url('images/Barrow Hills 284.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        color: white;
+        min-height: 200px;
+        max-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 0;
+      }
+
+      .hero-body {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .hero .title,
+      .hero .subtitle {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .title {
+        color: #cf0553;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+      }
+
+      .pe-group-card {
+        background: white;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.2s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 2px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .pe-group-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #cf0553, #ff6b9d);
+      }
+
+      .pe-group-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        border-color: #cf0553;
+      }
+
+      .pe-group-card:active {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .pe-group-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.75rem;
+      }
+
+      .pe-group-card p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+      }
+
+      .pe-group-card .pdf-btn {
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        text-decoration: none;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #cf0553, #ff6b9d);
+        border: none;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+        display: inline-block;
+        box-shadow: 0 3px 10px rgba(207, 5, 83, 0.25);
+        min-height: 44px;
+        min-width: 120px;
+        line-height: 1.2;
+      }
+
+      .pe-group-card .pdf-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(207, 5, 83, 0.35);
+        text-decoration: none;
+        color: white;
+      }
+
+      .pe-group-card .pdf-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(207, 5, 83, 0.3);
+      }
+
+      .section {
+        padding: 2rem 1.5rem;
+      }
+
+      .columns {
+        margin: 0 -0.75rem;
+      }
+
+      .column {
+        padding: 0.75rem;
+      }
+
+      /* Improved mobile layout */
+      @media screen and (max-width: 768px) {
+        .columns.is-multiline {
+          margin: 0 -0.5rem;
+        }
+        
+        .column.is-4 {
+          width: 100%;
+          max-width: 320px;
+          margin: 0 auto 1rem auto;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .columns.is-multiline {
+          margin: 0 -0.25rem;
+        }
+        
+        .column.is-4 {
+          width: 100%;
+          max-width: 280px;
+          margin: 0 auto 0.75rem auto;
+        }
+      }
+
+
+      @media screen and (max-width: 768px) {
+        .hero {
+          min-height: 120px;
+          max-height: 120px;
+          align-items: center;
+          padding-top: 30px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+        
+        .hero .title {
+          font-size: 1.8rem !important;
+          margin-bottom: 0;
+        }
+        
+        .section {
+          padding: 1.5rem 1rem;
+        }
+
+        .pe-group-card {
+          margin-bottom: 1rem;
+          padding: 1.25rem;
+          border-radius: 10px;
+        }
+
+        .pe-group-card h3 {
+          font-size: 1.1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .pe-group-card p {
+          font-size: 0.85rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .pe-group-card .pdf-btn {
+          padding: 10px 20px;
+          font-size: 0.95rem;
+          min-height: 40px;
+          min-width: 100px;
+        }
+
+        .columns {
+          margin: 0 -0.5rem;
+        }
+
+        .column {
+          padding: 0.5rem;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .hero {
+          min-height: 100px;
+          max-height: 100px;
+          align-items: center;
+          padding-top: 25px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .title {
+          font-size: 1.5rem !important;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+
+        .section {
+          padding: 1rem 0.75rem;
+        }
+
+        .pe-group-card {
+          padding: 1rem;
+          margin-bottom: 0.75rem;
+          border-radius: 8px;
+        }
+
+        .pe-group-card h3 {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .pe-group-card p {
+          font-size: 0.8rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .pe-group-card .pdf-btn {
+          padding: 8px 16px;
+          font-size: 0.9rem;
+          min-height: 36px;
+          min-width: 90px;
+          border-radius: 16px;
+        }
+
+        .columns {
+          margin: 0 -0.25rem;
+        }
+
+        .column {
+          padding: 0.25rem;
+        }
+      }
+
+      /* Enhanced Mobile Touch Targets */
+      @media (pointer: coarse) {
+        .pe-group-card .pdf-btn {
+          min-height: 44px;
+          min-width: 44px;
+        }
+        
+        .pe-group-card {
+          cursor: pointer;
+          -webkit-tap-highlight-color: rgba(207, 5, 83, 0.1);
+        }
+        
+        .pe-group-card:active {
+          background-color: #fafafa;
+        }
+      }
+
+      /* Breadcrumb styling */
+      .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+      }
+
+      .breadcrumb ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .breadcrumb li {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .breadcrumb li:not(:last-child)::after {
+        content: '>';
+        margin: 0 0.5rem;
+        color: #999;
+        font-weight: 600;
+      }
+
+      .breadcrumb a {
+        color: #cf0553;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .breadcrumb a:hover {
+        color: #a00442;
+        text-decoration: underline;
+      }
+
+      .breadcrumb .is-active a {
+        color: #666;
+        cursor: default;
+      }
+
+      .breadcrumb .is-active a:hover {
+        text-decoration: none;
+      }
+
+
+
+      /* PDF Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        /* Safe zone support */
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+        box-sizing: border-box;
+      }
+
+      .modal-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .modal-content {
+        position: relative;
+        background-color: white;
+        margin: 0 auto;
+        width: 90%;
+        height: calc(100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+        max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+        border-radius: 15px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: modalSlideIn 0.3s ease-out;
+        /* Safe zone positioning - ensure close button is always accessible */
+        margin-top: max(env(safe-area-inset-top, 0px) + 20px, 20px);
+        margin-bottom: max(env(safe-area-inset-bottom, 0px) + 20px, 20px);
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, #cf0553, #ff6b9d);
+        color: white;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+      }
+
+      .modal-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        color: white;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        background-color: rgba(255, 255, 255, 0.1);
+        z-index: 10001;
+      }
+
+      .modal-close:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+
+      .modal-body {
+        flex: 1;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #pdfFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0 0 15px 15px;
+      }
+
+      /* Mobile Modal Adjustments */
+      @media screen and (max-width: 768px) {
+        .modal-content {
+          width: 95%;
+          height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 40px);
+          max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 40px);
+          margin: 0 auto;
+          margin-top: max(env(safe-area-inset-top, 0px) + 20px, 20px);
+          margin-bottom: max(env(safe-area-inset-bottom, 0px) + 20px, 20px);
+        }
+
+        .modal-header {
+          padding: 0.75rem 1rem;
+        }
+
+        .modal-title {
+          font-size: 1.1rem;
+        }
+
+        .modal-close {
+          width: 36px;
+          height: 36px;
+          font-size: 1.3rem;
+          top: max(15px, env(safe-area-inset-top, 0px) + 5px);
+          right: 15px;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .modal-content {
+          width: 98%;
+          height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 20px);
+          max-height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 20px);
+          margin: 0 auto;
+          margin-top: max(env(safe-area-inset-top, 0px) + 10px, 10px);
+          margin-bottom: max(env(safe-area-inset-bottom, 0px) + 10px, 10px);
+        }
+
+        .modal-header {
+          padding: 0.5rem 0.75rem;
+        }
+
+        .modal-title {
+          font-size: 1rem;
+        }
+
+        .modal-close {
+          width: 32px;
+          height: 32px;
+          font-size: 1.2rem;
+          top: max(10px, env(safe-area-inset-top, 0px) + 5px);
+          right: 10px;
+        }
+      }
+
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+    
+
+    <!-- Hero Section -->
+    <section class="hero is-medium">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white">PE Groups</h1>
+          <p class="subtitle is-4 has-text-white">
+            Access PE group information and resources for different year groups
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Breadcrumb Navigation -->
+    <section class="section" style="padding-top: 1rem; padding-bottom: 0;">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li class="is-active"><a href="#" aria-current="page">PE Groups</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <!-- PE Groups Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered mb-6">PE Group Resources</h2>
+        <div class="columns is-multiline is-centered">
+          <!-- Senior PE Groups -->
+          <div class="column is-4">
+            <div class="pe-group-card">
+              <h3>Seniors</h3>
+              <a href="#" class="pdf-btn" onclick="openPdf('Senior PE Groups')">
+                View Groups
+              </a>
+            </div>
+          </div>
+          
+          <!-- Colts PE Groups -->
+          <div class="column is-4">
+            <div class="pe-group-card">
+              <h3>Colts</h3>
+              <a href="#" class="pdf-btn" onclick="openPdf('Colts PE Groups')">
+                View Groups
+              </a>
+            </div>
+          </div>
+          
+          <!-- Junior Colts PE Groups -->
+          <div class="column is-4">
+            <div class="pe-group-card">
+              <h3>Junior Colts</h3>
+              <a href="#" class="pdf-btn" onclick="openPdf('Junior Colts PE Groups')">
+                View Groups
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="modal">
+      <div class="modal-background" onclick="closePdfModal()"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle" class="modal-title">PE Groups</h3>
+          <button class="modal-close" onclick="closePdfModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <iframe id="pdfFrame" src="" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+
+
+      // Function to handle PDF opening in modal
+      function openPdf(groupType) {
+        const pdfUrls = {
+          'Senior PE Groups': 'https://drive.google.com/file/d/1GEmHsd-_O9yNXsWi7ydvlXee3cNt8uaY/view?usp=sharing',
+          'Colts PE Groups': 'https://drive.google.com/file/d/1RrZAXUVcrvdN2cqtISuaCICZzwUZlvb8/view?usp=sharing',
+          'Junior Colts PE Groups': 'https://drive.google.com/file/d/1F7Ge4YYg3SslOtIfqZeUxLX2CPeDJnyv/view?usp=sharing'
+        };
+        
+        const url = pdfUrls[groupType];
+        if (url) {
+          // Convert Google Drive view link to embed link
+          const embedUrl = url.replace('/view?usp=sharing', '/preview');
+          
+          // Update modal title and PDF frame
+          document.getElementById('modalTitle').textContent = groupType;
+          document.getElementById('pdfFrame').src = embedUrl;
+          
+          // Show modal
+          document.getElementById('pdfModal').style.display = 'block';
+          
+          // Prevent body scroll when modal is open
+          document.body.style.overflow = 'hidden';
+        } else {
+          alert('PDF link not configured yet. Please contact the administrator.');
+        }
+      }
+
+      // Function to close PDF modal
+      function closePdfModal() {
+        document.getElementById('pdfModal').style.display = 'none';
+        document.getElementById('pdfFrame').src = '';
+        document.body.style.overflow = 'auto';
+      }
+
+      // Close modal when pressing Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closePdfModal();
+        }
+      });
+
+      // Add hover effect for mobile devices
+      if ('ontouchstart' in window) {
+        document.querySelectorAll('.pe-group-card').forEach(card => {
+          card.addEventListener('touchstart', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
+          });
+          
+          card.addEventListener('touchend', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.08)';
+          });
+          
+          card.addEventListener('touchcancel', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.08)';
+          });
+        });
+      }
+
+
+
+
+
+
+
+      // Check Google authentication access control
+      function checkAccess() {
+        // Wait for navbar loader to be ready
+        function waitForNavbar() {
+          if (window.navbarLoader && window.navbarLoader.googleAuth) {
+            // Navbar and Google Auth are ready
+            console.log('Navbar and Google Auth are ready');
+            return;
+          } else {
+            // Wait a bit more for navbar to initialize
+            setTimeout(waitForNavbar, 100);
+          }
+        }
+        
+        // Start checking for navbar
+        waitForNavbar();
+      }
+
+      // Display current username
+      function displayUsername() {
+        const accessData = localStorage.getItem('bhsAccessData');
+        if (accessData) {
+          try {
+            const data = JSON.parse(accessData);
+            if (data.name && data.surname) {
+              document.getElementById('currentUsername').textContent = `${data.name} ${data.surname}`;
+              document.getElementById('fullNameDisplay').textContent = `${data.name} ${data.surname}`;
+            } else if (data.name) {
+              document.getElementById('currentUsername').textContent = data.name;
+              document.getElementById('fullNameDisplay').textContent = data.name;
+            } else if (data.username) {
+              // Fallback to username if name is not available
+              document.getElementById('currentUsername').textContent = data.username;
+              document.getElementById('fullNameDisplay').textContent = data.username;
+            }
+          } catch (error) {
+            console.error('Error parsing access data:', error);
+          }
+        }
+      }
+      
+
+
+      // Logout function
+      function logout() {
+        localStorage.removeItem('bhsAccessData');
+        window.location.href = 'passcode.html';
+      }
+
+      // Check access when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAccess();
+        displayUsername();
+        console.log('DOM loaded, JavaScript is working');
+      });
+    </script>
+    
+    <style>
+      .footer {
+        background-color: #cf0553;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+      }
+    </style>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>BHS Sports Hub</strong> - Barrow Hills School PE Department
+            </p>
+            <p>
+                Central hub for managing results, monitoring progress, and supporting team performance.
+            </p>
+        </div>
+    </footer>
+
+  </body>
+</html>

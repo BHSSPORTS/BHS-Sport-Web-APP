@@ -1,0 +1,172 @@
+{
+  "name": "BHS Sports Hub",
+  "short_name": "BHS SPORT",
+  "description": "Barrow Hills School Sports Hub - Match results, team statistics, and performance analytics",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#cf0553",
+  "theme_color": "#cf0553",
+  "background": "#cf0553",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "display_override": ["standalone", "minimal-ui"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "splash": [
+    {
+      "src": "splash-screens/splash-320x568.png",
+      "sizes": "320x568",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-375x667.png",
+      "sizes": "375x667",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-390x844.png",
+      "sizes": "390x844",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-414x896.png",
+      "sizes": "414x896",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-428x926.png",
+      "sizes": "428x926",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-568x320.png",
+      "sizes": "568x320",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-667x375.png",
+      "sizes": "667x375",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-844x390.png",
+      "sizes": "844x390",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-896x414.png",
+      "sizes": "896x414",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-926x428.png",
+      "sizes": "926x428",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-768x1024.png",
+      "sizes": "768x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-834x1112.png",
+      "sizes": "834x1112",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-834x1194.png",
+      "sizes": "834x1194",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-1024x768.png",
+      "sizes": "1024x768",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-1024x1366.png",
+      "sizes": "1024x1366",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-1112x834.png",
+      "sizes": "1112x834",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-1194x834.png",
+      "sizes": "1194x834",
+      "type": "image/png"
+    },
+    {
+      "src": "splash-screens/splash-1366x1024.png",
+      "sizes": "1366x1024",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["sports", "education", "productivity"],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/screenshot-narrow.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

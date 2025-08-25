@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sports Hub" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#cf0553" />
+    <meta name="msapplication-TileColor" content="#cf0553" />
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png" />
+    
+    <!-- Additional iOS PWA meta tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-orientations" content="portrait" />
+    
+    <title>BHS Sports Hub</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png" />
+    
+    <!-- Splash Screens for iOS - Simplified approach -->
+    <!-- iPhone -->
+    <link rel="apple-touch-startup-image" href="splash-screens/splash-390x844.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-375x667.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-414x896.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="splash-screens/splash-428x926.png">
+    
+    <!-- iPad -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px)" href="splash-screens/splash-768x1024.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px)" href="splash-screens/splash-1024x1366.png">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="safe-zone.css" />
+    
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar.css" />
+    
+    <!-- Navbar Loader Script -->
+    <script src="navbar-loader.js"></script>
+    
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <!-- Google Authentication JavaScript -->
+    <script src="google-auth.js"></script>
+
+    
+
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+      }
+
+      /* PWA mode adjustments */
+      @media (display-mode: standalone) {
+        body {
+          padding-top: 0;
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+
+        
+      
+      /* Modal styling */
+      .modal-card-head {
+        background-color: #cf0553;
+        color: white;
+      }
+      
+      .modal-card-title {
+        color: white;
+      }
+
+
+
+      .hero {
+        background-image: url('images/Barrow Hills 284.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        color: white;
+        min-height: 250px;
+        max-height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 0;
+      }
+
+      .hero-body {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .hero .title,
+      .hero .subtitle {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .title {
+        color: #cf0553;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+      }
+
+      .link-card {
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .link-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .link-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .link-card p {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+      }
+
+      .link-card a {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #cf0553;
+        text-decoration: none;
+        padding: 10px 20px;
+        border: 2px solid #cf0553;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .link-card a:hover {
+        background-color: #cf0553;
+        color: white;
+        text-decoration: none;
+      }
+
+      .footer {
+        background-color: #cf0553;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+      }
+
+      .calendar-section {
+        margin-top: 2rem;
+      }
+
+      iframe {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .calendar-header {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+
+
+      .section {
+        padding: 3rem 1.5rem;
+      }
+
+
+
+      @media screen and (max-width: 768px) {
+        .hero {
+          min-height: 120px;
+          max-height: 120px;
+          align-items: center;
+          padding-top: 30px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+        
+        .hero .title {
+          font-size: 1.8rem !important;
+          margin-bottom: 0;
+        }
+        
+        .section {
+          padding: 2rem 1rem;
+        }
+
+
+
+
+
+        .calendar-container {
+          flex-direction: column;
+        }
+
+        .calendar-section {
+          margin-bottom: 1rem;
+        }
+
+        /* Mobile Card Improvements */
+        .link-card {
+          margin-bottom: 1rem;
+          padding: 1.25rem;
+        }
+
+        .link-card h3 {
+          font-size: 1.1rem;
+        }
+
+        .link-card p {
+          font-size: 0.85rem;
+        }
+
+        .link-card a {
+          padding: 12px 20px;
+          font-size: 0.9rem;
+        }
+
+        /* Mobile Table Improvements */
+        .table-container {
+          padding: 1rem;
+          overflow-x: auto;
+        }
+
+        .table {
+          font-size: 0.8rem;
+        }
+
+        .table th,
+        .table td {
+          padding: 0.5rem 0.25rem;
+          white-space: nowrap;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .hero {
+          min-height: 100px;
+          max-height: 100px;
+          align-items: center;
+          padding-top: 25px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .title {
+          font-size: 1.5rem !important;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+
+
+
+        .section {
+          padding: 1.5rem 0.75rem;
+        }
+
+        .link-card {
+          padding: 1rem;
+        }
+
+        .link-card h3 {
+          font-size: 1rem;
+        }
+
+        .link-card p {
+          font-size: 0.8rem;
+        }
+
+        .link-card a {
+          padding: 10px 16px;
+          font-size: 0.85rem;
+        }
+
+        .table-container {
+          padding: 0.75rem;
+        }
+
+        .table {
+          font-size: 0.75rem;
+        }
+      }
+
+      /* Enhanced Mobile Touch Targets */
+      @media (pointer: coarse) {
+        .welcome-btn,
+        .logout-btn,
+        .link-card a {
+          min-height: 44px;
+          min-width: 44px;
+        }
+      }
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+
+
+    <!-- Hero Section -->
+    <section class="hero is-large">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white">BHS Sports Hub</h1>
+          <p class="subtitle is-4 has-text-white">
+            Barrow Hills PE Dept central hub for all things sport.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Camera Button - Mobile Only -->
+    <div id="floatingCameraBtn" class="floating-camera-btn mobile-only" onclick="openCameraPage()">
+      <img src="icons/cameraicon.png" alt="Camera" class="camera-icon">
+      <span class="camera-tooltip">Take Photo</span>
+    </div>
+
+    
+
+
+
+    <!-- Links Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="title is-4 has-text-centered">Explore the Platform</h2>
+        <div class="columns is-multiline is-centered">
+          <!-- Link Cards -->
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Match Results</h3>
+              <p>Access all match results and team stats with comprehensive filtering and search capabilities.</p>
+              <a href="results.html">View Results</a>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Team Statistics</h3>
+              <p>Analyse individual team performance in detail with charts and PDF export functionality.</p>
+              <a href="team-stats.html">View Team Stats</a>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Performance Analytics</h3>
+              <p>Insights into top-performing teams and trends with advanced filtering options.</p>
+              <a href="analytics.html">Explore Analytics</a>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Results Input</h3>
+              <p>Submit new match results with individual player performances and detailed match information.</p>
+              <a href="input.html">Add Results</a>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Team Sheets</h3>
+              <p>View team lineups for upcoming matches with PDF download capabilities.</p>
+              <a href="team-sheets.html">View Team Sheets</a>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="link-card">
+              <h3>Teacher Statistics</h3>
+              <p>Analyse coaching staff performance and match results with comprehensive statistics.</p>
+              <a href="teacher-stats.html">View Teacher Stats</a>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="section calendar-section">
+      <div class="container">
+        <h2 class="title is-4 has-text-centered">Upcoming Events</h2>
+        <p class="subtitle has-text-centered">
+          Stay up-to-date with upcoming matches and events from our sports calendars.
+        </p>
+
+        <!-- Table for Upcoming Events -->
+        <div class="table-container">
+          <table class="table is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr class="table-header">
+                <th>Date</th>
+                <th>Event</th>
+                <th>Location</th>
+                <th>Calendar</th>
+              </tr>
+            </thead>
+            <tbody id="upcoming-events">
+              <!-- Events will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      /* Section and Table Styling */
+      .calendar-section {
+        background: #f4f6f9;
+        padding: 2rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-container {
+        margin-top: 1rem;
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-header {
+        background-color: #cf0553;
+        color: white !important;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+
+      .table td, .table th {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .table td {
+        font-size: 0.9rem;
+        color: #333;
+      }
+
+      .table td:nth-child(2) {
+        font-weight: 600;
+        color: #cf0553;
+      }
+
+      .table tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #666;
+      }
+
+      .table thead th {
+        background-color: #cf0553 !important;
+        color: white !important;
+        text-align: center;
+        font-weight: bold;
+      }
+
+
+
+      .button {
+        margin: 0.5rem;
+        min-width: 120px;
+      }
+
+      .progress {
+        height: 1.5rem;
+        border-radius: 0.75rem;
+      }
+
+      .notification {
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .notification.is-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .notification.is-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .notification.is-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .notification.is-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+
+      /* Description field styling */
+      #photoDescription {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+      }
+
+      .label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .textarea {
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+      }
+
+      .textarea:focus {
+        border-color: #cf0553;
+        box-shadow: 0 0 0 0.2rem rgba(207, 5, 83, 0.25);
+      }
+
+      /* Floating Camera Button */
+      .floating-camera-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #cf0553, #a00442);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(207, 5, 83, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        border: 3px solid white;
+      }
+
+      .floating-camera-btn:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 12px 35px rgba(207, 5, 83, 0.6);
+      }
+
+      .floating-camera-btn:active {
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .camera-icon {
+        width: 32px;
+        height: 32px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        transition: transform 0.3s ease;
+      }
+      
+      .floating-camera-btn:hover .camera-icon {
+        transform: scale(1.1);
+      }
+
+      .camera-tooltip {
+        position: absolute;
+        right: 90px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        font-weight: 500;
+      }
+
+      .floating-camera-btn:hover .camera-tooltip {
+        opacity: 1;
+      }
+
+      /* Mobile Only - Hide on Desktop */
+      .mobile-only {
+        display: none;
+      }
+
+      /* Mobile responsive adjustments */
+      @media screen and (max-width: 768px) {
+        .mobile-only {
+          display: flex !important;
+        }
+        
+        .floating-camera-btn {
+          bottom: 20px;
+          right: 20px;
+          width: 70px;
+          height: 70px;
+        }
+
+        .camera-icon {
+          width: 28px;
+          height: 28px;
+        }
+
+        .camera-tooltip {
+          right: 80px;
+          font-size: 12px;
+          padding: 6px 10px;
+        }
+      }
+
+      /* Hide tooltip on very small screens */
+      @media screen and (max-width: 480px) {
+        .camera-tooltip {
+          display: none;
+        }
+      }
+
+      /* Pulse animation for floating camera button */
+      @keyframes cameraPulse {
+        0% {
+          box-shadow: 0 8px 25px rgba(207, 5, 83, 0.4);
+        }
+        50% {
+          box-shadow: 0 8px 25px rgba(207, 5, 83, 0.6), 0 0 20px rgba(207, 5, 83, 0.3);
+        }
+        100% {
+          box-shadow: 0 8px 25px rgba(207, 5, 83, 0.4);
+        }
+      }
+
+      .floating-camera-btn {
+        animation: cameraPulse 3s ease-in-out infinite;
+      }
+
+      .floating-camera-btn:hover {
+        animation: none;
+      }
+
+      /* Multiple Photos Styling */
+      .photo-counter {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .photo-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .photo-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ddd;
+        border: 2px solid #fff;
+        transition: all 0.3s ease;
+      }
+
+      .photo-dot.active {
+        background: #cf0553;
+        transform: scale(1.2);
+      }
+
+      .photo-dot.completed {
+        background: #28a745;
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      /* Modern modal styling */
+      .modal-card {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+        border: none;
+      }
+      
+      .modal-card-head {
+        background: linear-gradient(135deg, #cf0553, #e91e63);
+        border-bottom: none;
+        padding: 1.5rem;
+      }
+      
+      .modal-card-title {
+        color: white;
+        font-weight: 700;
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 0;
+      }
+      
+      .modal-card-body {
+        padding: 2rem;
+      }
+      
+      .delete {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+      }
+      
+      .delete:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .photo-counter p {
+        margin-bottom: 0.5rem;
+        color: #495057;
+      }
+
+      /* Better button spacing and layout */
+      #cameraControls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+
+      #cameraControls .button {
+        margin: 0;
+        min-width: 130px;
+        transition: all 0.2s ease;
+      }
+
+      #cameraControls .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+    </style>
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>BHS Sports Hub</strong> - Barrow Hills School PE Department
+        </p>
+        <p>
+          Central hub for managing results, monitoring progress, and supporting team performance.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Logout function
+      function logout() {
+        localStorage.removeItem('bhsAccessData');
+        window.location.href = 'passcode.html';
+      }
+
+
+
+      const boysCalendarId = "barrowhills.org_vrdibpsovu250uvqkg7jgu2t3k@group.calendar.google.com";
+      const girlsCalendarId = "barrowhills.org_fe1p249s97foela1d011aqhrog@group.calendar.google.com";
+      const apiKey = "AIzaSyAaryRUkpDHIpSkK1d9lrsE22mP3fQD7fU";
+      const maxEvents = 10;
+
+      // Fetch events from a calendar
+      async function fetchCalendarEvents(calendarId) {
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&timeMin=${new Date().toISOString()}&maxResults=${maxEvents}&orderBy=startTime&singleEvents=true`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          console.error("Error fetching calendar events:", response.statusText);
+          return [];
+        }
+        const data = await response.json();
+        return data.items || [];
+      }
+
+      // Format the event date
+      function formatEventDate(dateTime) {
+        const options = { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+        return new Date(dateTime).toLocaleString("en-GB", options);
+      }
+
+      // Render events in the table
+      async function renderUpcomingEvents() {
+        const boysEvents = await fetchCalendarEvents(boysCalendarId);
+        const girlsEvents = await fetchCalendarEvents(girlsCalendarId);
+
+        // Combine and sort events by start time
+        const allEvents = [...boysEvents, ...girlsEvents]
+          .sort((a, b) => new Date(a.start.dateTime || a.start.date) - new Date(b.start.dateTime || b.start.date))
+          .slice(0, maxEvents);
+
+        // Insert events into the table
+        const eventsContainer = document.getElementById("upcoming-events");
+        eventsContainer.innerHTML = allEvents.map(event => `
+          <tr>
+            <td>${formatEventDate(event.start.dateTime || event.start.date)}</td>
+            <td>${event.summary || "No Title"}</td>
+            <td>${event.location || "TBD"}</td>
+            <td>${event.organizer?.displayName || "Unknown"}</td>
+          </tr>
+        `).join("");
+      }
+
+      // Load events on page load
+      renderUpcomingEvents();
+
+
+
+      // Check Google authentication access control
+      function checkAccess() {
+        // Wait for navbar loader to be ready
+        function waitForNavbar() {
+          if (window.navbarLoader && window.navbarLoader.googleAuth) {
+            // Navbar and Google Auth are ready
+            console.log('Navbar and Google Auth are ready');
+            return;
+          } else {
+            // Wait a bit more for navbar to initialize
+            setTimeout(waitForNavbar, 100);
+          }
+        }
+        
+        // Start checking for navbar
+        waitForNavbar();
+      }
+
+      // Display current username from Google authentication
+      function displayUsername() {
+        try {
+          const authData = localStorage.getItem('bhsGoogleAuth');
+          if (authData) {
+            const { user } = JSON.parse(authData);
+            
+            // Update username display elements if they exist
+            const usernameElements = document.querySelectorAll('#currentUsername, #fullNameDisplay');
+            usernameElements.forEach(element => {
+              if (element) {
+                element.textContent = user.name;
+              }
+            });
+            
+            console.log('Username displayed:', user.name);
+          }
+        } catch (error) {
+          console.error('Error displaying username from Google auth:', error);
+        }
+      }
+      
+      // Show installation help popup
+      function showInstallHelp() {
+        alert('To install this app:\n\n1. Tap the share button (📤) in your browser\n2. Select "Add to Home Screen"\n3. Tap "Add" to confirm\n\nThis will create an app icon on your home screen!');
+      }
+      
+      // Show installation guide
+      function showInstallGuide() {
+        alert('Installation Guide:\n\n📱 iOS Safari:\n- Tap share button → "Add to Home Screen"\n\n📱 Android Chrome:\n- Tap menu → "Add to Home Screen"\n\n💻 Desktop:\n- Click install button in address bar');
+      }
+      
+      // NEW SIMPLE DROPDOWN FUNCTIONS
+      function toggleDropdown() {
+        const dropdown = document.getElementById('dropdownContent');
+        const isMobile = window.innerWidth <= 768;
+        
+        if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+          dropdown.style.display = 'block';
+          if (isMobile) {
+            dropdown.classList.add('show');
+            // Prevent body scroll when dropdown is open on mobile
+            document.body.style.overflow = 'hidden';
+          }
+          console.log('Dropdown opened');
+        } else {
+          dropdown.style.display = 'none';
+          if (isMobile) {
+            dropdown.classList.remove('show');
+            // Restore body scroll
+            document.body.style.overflow = '';
+          }
+          console.log('Dropdown closed');
+        }
+      }
+      
+
+
+      // Check access when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAccess();
+        displayUsername();
+        console.log('DOM loaded, JavaScript is working');
+        
+        
+        
+
+
+        // Animate floating camera button on page load
+        const floatingBtn = document.getElementById('floatingCameraBtn');
+        if (floatingBtn) {
+          // Start with button slightly hidden
+          floatingBtn.style.opacity = '0';
+          floatingBtn.style.transform = 'translateY(20px) scale(0.8)';
+          
+          // Animate in after a short delay
+          setTimeout(() => {
+            floatingBtn.style.transition = 'all 0.6s ease';
+            floatingBtn.style.opacity = '1';
+            floatingBtn.style.transform = 'translateY(0) scale(1)';
+          }, 500);
+        }
+      });
+      
+      // Register Service Worker for PWA functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              
+              // Check for service worker updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New service worker available, prompt user to refresh
+                    if (confirm('A new version is available! Refresh to update?')) {
+                      newWorker.postMessage({ type: 'SKIP_WAITING' });
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+            })
+            .catch(function(err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+
+
+      
+
+      
+
+
+
+
+      // Open camera page
+      function openCameraPage() {
+        // Check if user is authenticated
+        if (!localStorage.getItem('bhsGoogleAuth')) {
+          alert('Please sign in with Google to use the camera.');
+          return;
+        }
+        
+        // Add click feedback animation
+        const floatingBtn = document.getElementById('floatingCameraBtn');
+        if (floatingBtn) {
+          floatingBtn.style.transform = 'scale(0.9)';
+          setTimeout(() => {
+            floatingBtn.style.transform = 'scale(1)';
+          }, 150);
+        }
+        
+        // Navigate to camera page
+        window.location.href = 'camera.html';
+      }
+    </script>
+    
+    <!-- Footer Links -->
+    <div style="text-align: center; padding: 2rem 1.5rem; background: #f8f9fa; border-top: 1px solid #e9ecef; margin-top: 3rem;">
+      
+    </div>
+  </body>
+</html>

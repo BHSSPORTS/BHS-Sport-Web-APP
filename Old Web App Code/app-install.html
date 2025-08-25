@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sports Hub" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#cf0553" />
+    <meta name="msapplication-TileColor" content="#cf0553" />
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png" />
+    
+    <!-- Additional iOS PWA meta tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-orientations" content="portrait" />
+    
+    <title>Install App - BHS Sports Hub</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png" />
+    
+    <!-- Splash Screens for iOS - Simplified approach -->
+    <!-- iPhone -->
+    <link rel="apple-touch-startup-image" href="splash-screens/splash-390x844.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-375x667.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-414x896.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="splash-screens/splash-428x926.png">
+    
+    <!-- iPad -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px)" href="splash-screens/splash-768x1024.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px)" href="splash-screens/splash-1024x1366.png">
+    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="safe-zone.css" />
+    
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar.css" />
+    
+    <!-- Navbar Loader Script -->
+    <script src="navbar-loader.js"></script>
+    
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <!-- Google Authentication JavaScript -->
+    <script src="google-auth.js"></script>
+
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+      }
+
+      /* PWA mode adjustments */
+      @media (display-mode: standalone) {
+        body {
+          padding-top: 0;
+        }
+      }
+
+      .install-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .install-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .install-header h1 {
+        color: #cf0553;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .install-header p {
+        font-size: 1.2rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .install-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .install-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 2px solid #e9ecef;
+      }
+
+      .install-card h2 {
+        color: #cf0553;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .install-steps {
+        list-style: none;
+        padding: 0;
+      }
+
+      .install-steps li {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #cf0553;
+      }
+
+      .step-number {
+        display: inline-block;
+        background: #cf0553;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 24px;
+        font-weight: 600;
+        margin-right: 0.75rem;
+      }
+
+      .step-text {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .device-icon {
+        text-align: center;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .ios-icon {
+        color: #007AFF;
+      }
+
+      .android-icon {
+        color: #3DDC84;
+      }
+
+      .benefits-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+      }
+
+      .benefits-section h3 {
+        color: #cf0553;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .benefits-list {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .benefits-list li {
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border-left: 3px solid #cf0553;
+      }
+
+      @media (max-width: 768px) {
+        .install-columns {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        
+        .install-header h1 {
+          font-size: 2rem;
+        }
+        
+        .install-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Main Content -->
+    <div class="install-container">
+      <div class="install-header">
+        <h1>Install Sports Hub App</h1>
+        <p>Add BHS Sports Hub to your home screen for quick access and a native app experience</p>
+      </div>
+
+      <div class="install-columns">
+        <!-- iOS Instructions -->
+        <div class="install-card">
+          <div class="device-icon ios-icon">📱</div>
+          <h2>iOS (iPhone/iPad)</h2>
+          <ol class="install-steps">
+            <li>
+              <span class="step-number">1</span>
+              <span class="step-text">Open Safari and navigate to this website</span>
+            </li>
+            <li>
+              <span class="step-number">2</span>
+              <span class="step-text">Tap the Share button (square with arrow pointing up)</span>
+            </li>
+            <li>
+              <span class="step-number">3</span>
+              <span class="step-text">Scroll down and tap "Add to Home Screen"</span>
+            </li>
+            <li>
+              <span class="step-number">4</span>
+              <span class="step-text">Customize the name if desired and tap "Add"</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Android Instructions -->
+        <div class="install-card">
+          <div class="device-icon android-icon">🤖</div>
+          <h2>Android</h2>
+          <ol class="install-steps">
+            <li>
+              <span class="step-number">1</span>
+              <span class="step-text">Open Chrome and navigate to this website</span>
+            </li>
+            <li>
+              <span class="step-number">2</span>
+              <span class="step-text">Tap the three-dot menu (⋮) in the top right</span>
+            </li>
+            <li>
+              <span class="step-number">3</span>
+              <span class="step-text">Tap "Add to Home screen" or "Install app"</span>
+            </li>
+            <li>
+              <span class="step-number">4</span>
+              <span class="step-text">Tap "Add" to confirm the installation</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="benefits-section">
+        <h3>Benefits of Installing the App</h3>
+        <ul class="benefits-list">
+          <li>Quick access from your home screen</li>
+          <li>Works offline for previously viewed content</li>
+          <li>Native app-like experience</li>
+          <li>Faster loading times</li>
+          <li>No need to remember the website URL</li>
+          <li>Push notifications (when available)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer Links -->
+    <div style="text-align: center; padding: 2rem 1.5rem; background: #f8f9fa; border-top: 1px solid #e9ecef; margin-top: 3rem;">
+      
+    </div>
+
+    <script>
+      // Check access when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAccess();
+        displayUsername();
+        console.log('DOM loaded, JavaScript is working');
+      });
+      
+      // Register Service Worker for PWA functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+              console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

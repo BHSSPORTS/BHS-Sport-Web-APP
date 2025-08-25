@@ -1,0 +1,499 @@
+/* Navbar CSS - Working Version */
+.navbar {
+  background-color: #cf0553;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Safe zone for standalone app mode - extends above navbar into notch area */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background-color: #cf0553;
+  z-index: -1;
+}
+
+/* iOS Safe Area Support */
+@supports (padding: env(safe-area-inset-top)) {
+  .navbar {
+    padding-top: 0.5rem;
+  }
+}
+
+/* iOS Standalone Mode */
+@media (display-mode: standalone) {
+  .navbar {
+    background-color: #cf0553;
+    padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  }
+  
+  /* Ensure safe zone extends properly in standalone mode */
+  .navbar::before {
+    top: calc(-1 * env(safe-area-inset-top, 0px));
+    height: env(safe-area-inset-top, 0px);
+    background-color: #cf0553;
+  }
+}
+
+/* Mobile status bar support - no extra padding */
+@media (max-width: 768px) {
+  .navbar {
+    padding-top: 0.5rem;
+  }
+}
+
+/* PWA/Standalone mode on mobile - avoid notch */
+@media (max-width: 768px) and (display-mode: standalone) {
+  .navbar {
+    padding-top: 0.5rem;
+    top: env(safe-area-inset-top, 0px);
+    margin-bottom: 0;
+  }
+  
+  /* Ensure safe zone extends properly in PWA mode */
+  .navbar::before {
+    top: calc(-1 * env(safe-area-inset-top, 0px));
+    height: env(safe-area-inset-top, 0px);
+    background-color: #cf0553;
+  }
+}
+
+/* Brand section */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+}
+
+.navbar-title-image {
+  height: 40px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  margin-left: 20px;
+}
+
+/* Divider after brand */
+.navbar-brand::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-left: 1rem;
+}
+
+/* Main navigation menu */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin-left: 2rem;
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+}
+
+/* Navigation items */
+.navbar-item {
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar-item:last-child {
+  border-right: none;
+}
+
+.navbar-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dropdown containers */
+.navbar-item.has-dropdown {
+  position: relative;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Ensure dropdown trigger text stays visible when hovering over dropdown items */
+.navbar-item.has-dropdown:hover .navbar-link {
+  background-color: transparent;
+  color: white;
+}
+
+.navbar-link::after {
+  content: '▼';
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Dropdown menus */
+.navbar-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #cf0553;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  display: none;
+  z-index: 1001;
+}
+
+.navbar-item.has-dropdown:hover .navbar-dropdown {
+  display: block;
+}
+
+.navbar-dropdown .navbar-item {
+  border-right: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.navbar-dropdown .navbar-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateX(4px);
+}
+
+.navbar-dropdown .navbar-item:last-child {
+  border-bottom: none;
+}
+
+/* User welcome button */
+.welcome-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.welcome-btn:hover::before {
+  left: 100%;
+}
+
+.welcome-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile toggle button - Hidden on desktop */
+.mobile-toggle {
+  display: none;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin: 0 auto;
+  transition: all 0.2s;
+}
+
+.mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.mobile-toggle.is-active {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Tablet styles - Medium screens */
+@media (max-width: 1024px) and (min-width: 1201px) {
+  .dropdown-content {
+    min-width: 300px;
+  }
+  
+  .action-grid {
+    gap: 0.75rem;
+    padding: 1.25rem;
+  }
+  
+  .action-btn {
+    min-height: 90px;
+    padding: 1rem 0.75rem;
+  }
+  
+  .btn-icon {
+    font-size: 1.75rem;
+  }
+  
+  .btn-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile styles - Collapsible menu */
+@media (max-width: 1200px) {
+  .navbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+  }
+  
+  .navbar-brand {
+    justify-content: flex-start;
+    margin-bottom: 0;
+  }
+  
+  .navbar-brand::after {
+    display: none;
+  }
+  
+  /* Show mobile toggle button on mobile */
+  .mobile-toggle {
+    display: block;
+    margin: 0;
+  }
+  
+  /* Mobile navigation container */
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    margin: 0;
+    width: 100%;
+    background-color: #cf0553;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+  .navbar-menu.is-active {
+    display: flex;
+    max-height: 1000px;
+  }
+  
+  .navbar-end {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  .navbar-item {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    background-color: transparent;
+    transition: background-color 0.2s;
+  }
+  
+  .navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .navbar-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Mobile dropdowns */
+  .navbar-dropdown {
+    position: static;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    display: none;
+    width: 100%;
+  }
+  
+  .navbar-item.has-dropdown.is-active .navbar-dropdown {
+    display: block;
+  }
+  
+  /* Disable hover behavior on mobile */
+  .navbar-item.has-dropdown:hover .navbar-dropdown {
+    display: none;
+  }
+  
+  .navbar-dropdown .navbar-item {
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .navbar-dropdown .navbar-item:last-child {
+    border-bottom: none;
+  }
+  
+
+  
+  
+  
+  /* Hover behavior disabled on mobile - use click instead */
+  
+  /* Mobile active state is now handled above */
+  
+
+}
+
+/* Username box */
+.username-box {
+  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #cf0553;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 32px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Simple logout button */
+.logout-btn-simple {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.logout-btn-simple:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.logout-btn-simple:active {
+  transform: scale(0.95);
+}
+
+/* Mobile optimization for username box and logout button */
+@media (max-width: 1200px) {
+  .username-box {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+    touch-action: manipulation;
+    min-width: 100px;
+    font-size: 0.85rem;
+  }
+  
+  .logout-btn-simple {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+    touch-action: manipulation;
+  }
+}
+
+/* Google Sign-In Container */
+#googleSignInContainer {
+  display: flex;
+  align-items: center;
+}
+
+#googleSignInContainer .gsi-material-button {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 6px !important;
+  color: white !important;
+  font-size: 0.9rem !important;
+  padding: 0.5rem 1rem !important;
+  height: auto !important;
+  min-width: 120px !important;
+}
+
+#googleSignInContainer .gsi-material-button:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}

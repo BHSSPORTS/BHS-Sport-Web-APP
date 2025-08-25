@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sports Hub" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#cf0553" />
+    <meta name="msapplication-TileColor" content="#cf0553" />
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png" />
+    
+    <!-- Additional iOS PWA meta tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-orientations" content="portrait" />
+    
+    <title>BHS Kit Marks Input</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png" />
+    
+    <!-- Splash Screens for iOS - Simplified approach -->
+    <!-- iPhone -->
+    <link rel="apple-touch-startup-image" href="splash-screens/splash-390x844.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-375x667.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="splash-screens/splash-414x896.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="splash-screens/splash-428x926.png">
+    
+    <!-- iPad -->
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px)" href="splash-screens/splash-768x1024.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px)" href="splash-screens/splash-1024x1366.png">
+    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="safe-zone.css" />
+    
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar.css" />
+    
+    <!-- Navbar Loader Script -->
+    <script src="config.js"></script>
+    <script src="navbar-loader.js"></script>
+    
+    <!-- Google Authentication JavaScript -->
+    <script src="google-auth.js"></script>
+    <!-- Access Control JavaScript -->
+    <script src="access-control.js"></script>
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+      }
+
+
+      
+
+      
+
+      
+
+      
+
+      
+
+
+      .hero {
+        background-image: url('images/Barrow Hills 284.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        color: white;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 0;
+      }
+
+      .hero-body {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .hero .title,
+      .hero .subtitle {
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+
+      .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        border: 2px solid #cf0553;
+      }
+
+      .form-card .title {
+        color: #cf0553;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .field {
+        margin-bottom: 1.5rem;
+      }
+      
+      /* Add extra spacing after student selection */
+      .field:has(#student-select) {
+        margin-bottom: 2rem;
+      }
+
+      .label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      .select.is-fullwidth select {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem 2.5rem 1rem 1rem;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        min-height: 3.5rem;
+        line-height: 1.5;
+        background-size: 1.25rem;
+        background-position: right 0.75rem center;
+        background-repeat: no-repeat;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+
+      .select.is-fullwidth select:focus {
+        border-color: #cf0553;
+        box-shadow: 0 0 0 0.125em rgba(207, 5, 83, 0.25);
+      }
+      
+      /* Make dropdown options more readable */
+      .select.is-fullwidth select option {
+        padding: 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .kit-mark-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .kit-mark-btn {
+        flex: 1;
+        padding: 1rem;
+        border: 2px solid #ddd;
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .kit-mark-btn:hover {
+        border-color: #cf0553;
+        background: #f8f9fa;
+      }
+
+      .kit-mark-btn.active {
+        background: #cf0553;
+        color: white;
+        border-color: #cf0553;
+        transform: scale(1.05);
+      }
+
+      .submit-btn {
+        background: #cf0553 !important;
+        color: white !important;
+        border: none !important;
+        padding: 1rem 2rem !important;
+        border-radius: 8px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+        min-height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.5rem !important;
+      }
+
+      .submit-btn:hover {
+        background: #a90443 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(207, 5, 83, 0.3) !important;
+      }
+
+      .submit-btn:active {
+        transform: translateY(0) !important;
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      .message {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-align: center;
+        display: none;
+      }
+
+      .message.is-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .message.is-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .message.is-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      /* Mobile responsive styles */
+      @media screen and (max-width: 768px) {
+        .hero {
+          min-height: 120px;
+          max-height: 120px;
+          align-items: center;
+          padding-top: 30px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+        
+        .hero .title {
+          font-size: 1.8rem !important;
+          margin-bottom: 0;
+        }
+        
+        .section {
+          padding: 2rem 1.5rem;
+        }
+        
+        .form-container {
+          padding: 1rem;
+        }
+        
+        .form-card {
+          padding: 1.5rem;
+        }
+        
+        .form-card .title {
+          font-size: 1.5rem;
+        }
+        
+        .kit-mark-buttons {
+          flex-direction: column;
+        }
+        
+        .kit-mark-btn {
+          min-height: 50px;
+          font-size: 1.1rem;
+        }
+        
+        .submit-btn {
+          padding: 0.875rem 1.5rem !important;
+          font-size: 1rem !important;
+          min-height: 50px !important;
+        }
+        
+        /* Mobile dropdown improvements */
+        .select.is-fullwidth select {
+          min-height: 4rem;
+          padding: 1.25rem 3rem 1.25rem 1.25rem;
+          font-size: 1.1rem;
+        }
+        
+
+
+        /* Mobile Form Improvements */
+        .input,
+        .select,
+        .textarea {
+          font-size: 1rem;
+          padding: 0.75rem;
+          border-radius: 8px;
+        }
+
+        .button {
+          padding: 0.75rem 1.5rem;
+          font-size: 1rem;
+          border-radius: 8px;
+        }
+
+        .label {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Card Improvements */
+        .card {
+          margin-bottom: 1rem;
+        }
+
+        .card-content {
+          padding: 1rem;
+        }
+
+        .card-header-title {
+          font-size: 1.1rem;
+          padding: 1rem;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .hero {
+          min-height: 100px;
+          max-height: 100px;
+          align-items: center;
+          padding-top: 25px;
+        }
+        
+        .hero-body {
+          padding: 10px;
+        }
+        
+        .hero .title {
+          font-size: 1.5rem !important;
+        }
+        
+        .hero .subtitle {
+          display: none;
+        }
+        
+        .section {
+          padding: 1rem 0.75rem;
+        }
+        
+        .form-card {
+          padding: 1rem;
+        }
+        
+        .form-card .title {
+          font-size: 1.3rem;
+        }
+        
+        .kit-mark-btn {
+          min-height: 45px;
+          font-size: 1rem;
+        }
+        
+        .submit-btn {
+          padding: 0.75rem 1rem !important;
+          font-size: 0.95rem !important;
+          min-height: 45px !important;
+        }
+        
+        /* Small mobile dropdown improvements */
+        .select.is-fullwidth select {
+          min-height: 3.5rem;
+          padding: 1rem 2.5rem 1rem 1rem;
+          font-size: 1rem;
+        }
+        
+
+
+        .card-content {
+          padding: 0.75rem;
+        }
+
+        .card-header-title {
+          font-size: 1rem;
+          padding: 0.75rem;
+        }
+      }
+
+      /* Enhanced Mobile Touch Targets */
+      @media (pointer: coarse) {
+        .button,
+        .input,
+        .select,
+        .textarea,
+        .kit-mark-btn,
+        .submit-btn {
+          min-height: 44px;
+          min-width: 44px;
+        }
+      }
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    <!-- Access Denied Message (will be shown if user doesn't have access) -->
+    <div id="accessDeniedMessage" class="notification is-danger" style="display: none; margin: 20px;">
+      <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+      <strong>Access Denied!</strong> You don't have permission to view this page. You will be redirected shortly.
+    </div>
+
+
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white">BHS Kit Marks Input</h1>
+          <p class="subtitle has-text-white">
+            Submit kit marks for the boys below.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Section -->
+    <div class="form-container">
+      <div class="form-card">
+        <h2 class="title">Kit Mark Submission</h2>
+        <form id="kitMarkForm">
+          <!-- Student Selection -->
+          <div class="field">
+            <label class="label">Select Student <span class="has-text-danger">*</span></label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="Student" id="student-select" required>
+                  <option value="">Select a student</option>
+                  <option value="A Barbour">A Barbour</option>
+<option value="A Banks">A Banks</option>
+<option value="M Bajer-Brangold">M Bajer-Brangold</option>
+<option value="C Bhatti">C Bhatti</option>
+<option value="R Bhatti">R Bhatti</option>
+<option value="J Berry">J Berry</option>
+<option value="O Blanc">O Blanc</option>
+<option value="F Blockley">F Blockley</option>
+<option value="J Blockley">J Blockley</option>
+<option value="S Bradley">S Bradley</option>
+<option value="C Bramall">C Bramall</option>
+<option value="L Buchholtz">L Buchholtz</option>
+<option value="T Bulpitt">T Bulpitt</option>
+<option value="A Caine">A Caine</option>
+<option value="N Carr">N Carr</option>
+<option value="S Clipsham">S Clipsham</option>
+<option value="H Craven">H Craven</option>
+<option value="A Davis">A Davis</option>
+<option value="F Davis">F Davis</option>
+<option value="A Dawson">A Dawson</option>
+<option value="J Francis">J Francis</option>
+<option value="N Gatward">N Gatward</option>
+<option value="L Gatward">L Gatward</option>
+<option value="W Gregory">W Gregory</option>
+<option value="Z Guy">Z Guy</option>
+<option value="J Hall">J Hall</option>
+<option value="F Harkman">F Harkman</option>
+<option value="O Henderson">O Henderson</option>
+<option value="T Henderson">T Henderson</option>
+<option value="R Hepburn">R Hepburn</option>
+<option value="E Heritage">E Heritage</option>
+<option value="O Heritage">O Heritage</option>
+<option value="R Heritage">R Heritage</option>
+<option value="G Hinds">G Hinds</option>
+<option value="L Hosford">L Hosford</option>
+<option value="A Jones">A Jones</option>
+<option value="D Jones">D Jones</option>
+<option value="S Jones">S Jones</option>
+<option value="A Joscelyne">A Joscelyne</option>
+<option value="D Korchagin">D Korchagin</option>
+<option value="E Lightman">E Lightman</option>
+<option value="B Midgley">B Midgley</option>
+<option value="G Midgley">G Midgley</option>
+<option value="D Mirkovic">D Mirkovic</option>
+<option value="A Monro">A Monro</option>
+<option value="H Muir-Wood">H Muir-Wood</option>
+<option value="L Neuwirth">L Neuwirth</option>
+<option value="I Pereiro">I Pereiro</option>
+<option value="C Perkins">C Perkins</option>
+<option value="G Pickard">G Pickard</option>
+<option value="H Pickard">H Pickard</option>
+<option value="J Poole">J Poole</option>
+<option value="V Povoas">V Povoas</option>
+<option value="B Pugin">B Pugin</option>
+<option value="P Pugin">P Pugin</option>
+<option value="E Rahman">E Rahman</option>
+<option value="J Radcliffe">J Radcliffe</option>
+<option value="B Reynolds">B Reynolds</option>
+<option value="J Richards">J Richards</option>
+<option value="C Rogers">C Rogers</option>
+<option value="E Rogers">E Rogers</option>
+<option value="H Sewell">H Sewell</option>
+<option value="B Simpson-Lee">B Simpson-Lee</option>
+<option value="H Strachan">H Strachan</option>
+<option value="N Swedrowski">N Swedrowski</option>
+<option value="S Preston">S Preston</option>
+<option value="R Thomson">R Thomson</option>
+<option value="R Thompson">R Thompson</option>
+<option value="T Todd">T Todd</option>
+<option value="G Waters">G Waters</option>
+<option value="J Waters">J Waters</option>
+<option value="L Waters">L Waters</option>
+<option value="W Wells">W Wells</option>
+<option value="H Woodgate">H Woodgate</option>
+<option value="D Woodgate">D Woodgate</option>
+<option value="R Worner">R Worner</option>
+<option value="L Worner">L Worner</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kit Marks Selection -->
+          <div class="field">
+            <label class="label">Kit Marks <span class="has-text-danger">*</span></label>
+            <div class="kit-mark-buttons" id="kit-mark-buttons">
+              <button type="button" class="kit-mark-btn" data-value="1">1</button>
+              <button type="button" class="kit-mark-btn" data-value="2">2</button>
+              <button type="button" class="kit-mark-btn" data-value="3">3</button>
+            </div>
+            <input type="hidden" name="KitMark" id="kit-mark-value" required />
+          </div>
+
+          <!-- Submit Button -->
+          <div class="field">
+            <div class="control">
+              <button class="submit-btn" type="submit" id="submitBtn">
+                <span class="icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                  </svg>
+                </span>
+                <span>Submit Kit Mark</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Success/Error Message -->
+        <div id="message" class="message" style="display: none;"></div>
+      </div>
+    </div>
+
+    <script>
+      // Essential functions for the page to work
+      // Check Google authentication access control
+      function checkAccess() {
+        // Wait for navbar loader to be ready
+        function waitForNavbar() {
+          if (window.navbarLoader && window.navbarLoader.accessControl) {
+            // Navbar and Access Control are ready
+            console.log('Navbar and Access Control are ready');
+            
+            // Check page access and redirect if denied
+            const accessControl = window.navbarLoader.accessControl;
+            if (!accessControl.checkPageAccess()) {
+              console.log('ACCESS DENIED: User does not have permission to view boyskitmarks.html');
+              
+              // Show access denied message
+              const accessDeniedMessage = document.getElementById('accessDeniedMessage');
+              if (accessDeniedMessage) {
+                accessDeniedMessage.style.display = 'block';
+              }
+              
+              return;
+            }
+            return;
+          } else {
+            // Wait a bit more for navbar to initialize
+            setTimeout(waitForNavbar, 100);
+          }
+        }
+        
+        // Start checking for navbar
+        waitForNavbar();
+      }
+
+      function logout() {
+        localStorage.removeItem('bhsAccessData');
+        window.location.href = 'index.html';
+      }
+
+      function displayUsername() {
+        const accessData = localStorage.getItem('bhsAccessData');
+        if (accessData) {
+          try {
+            const data = JSON.parse(accessData);
+            if (data.name && data.surname) {
+              document.getElementById('currentUsername').textContent = `${data.name} ${data.surname}`;
+              document.getElementById('fullNameDisplay').textContent = `${data.name} ${data.surname}`;
+            } else if (data.name) {
+              document.getElementById('currentUsername').textContent = data.name;
+              document.getElementById('fullNameDisplay').textContent = data.name;
+            } else if (data.username) {
+              document.getElementById('currentUsername').textContent = data.username;
+              document.getElementById('fullNameDisplay').textContent = data.username;
+            }
+          } catch (error) {
+            console.error('Error parsing access data:', error);
+          }
+        }
+      }
+
+      function showInstallHelp() {
+        alert('To install this app:\n\n1. Tap the share button (📤) in your browser\n2. Select "Add to Home Screen"\n3. Tap "Add" to confirm\n\nThis will create an app icon on your home screen!');
+      }
+      
+      function showInstallGuide() {
+        alert('Installation Guide:\n\n📱 iOS Safari:\n- Tap share button → "Add to Home Screen"\n\n📱 Android Chrome:\n- Tap menu → "Add to Home Screen"\n\n💻 Desktop:\n- Click install button in address bar');
+      }
+
+
+      
+      // Initialize page when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+          // IMMEDIATE ACCESS CHECK - don't wait for navbar
+          setTimeout(function() {
+            if (window.navbarLoader && window.navbarLoader.accessControl) {
+              const accessControl = window.navbarLoader.accessControl;
+              console.log('IMMEDIATE ACCESS CHECK for boyskitmarks.html');
+              
+              // Force access check and redirect if denied
+              if (!accessControl.checkPageAccess()) {
+                console.log('ACCESS DENIED: Immediate check failed');
+                
+                // Show access denied message
+                const accessDeniedMessage = document.getElementById('accessDeniedMessage');
+                if (accessDeniedMessage) {
+                  accessDeniedMessage.style.display = 'block';
+                }
+                
+                return;
+              }
+            }
+          }, 1000); // Wait 1 second for navbar to initialize
+          
+          
+        // Check access and display username
+        checkAccess();
+        displayUsername();
+        
+
+        
+
+        
+        // Kit marks functionality - THE WORKING VERSION
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzetgoWe592EezmqNxZo0jDe3TqUWLzErVGmxHRD_uOA6Dmd9a7fd4OOI_9_b6KWBxl4Q/exec";
+
+        document.querySelectorAll("#kit-mark-buttons button").forEach((button) => {
+          button.addEventListener("click", () => {
+            document.querySelectorAll("#kit-mark-buttons button").forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+            document.getElementById("kit-mark-value").value = button.getAttribute("data-value");
+          });
+        });
+
+        document.getElementById("kitMarkForm").addEventListener("submit", (event) => {
+          event.preventDefault();
+          
+          const form = event.target;
+          const formData = new FormData(form);
+          const data = {};
+          
+          formData.forEach((value, key) => {
+            data[key] = value;
+          });
+
+          // Show loading state
+          const submitBtn = document.getElementById('submitBtn');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<span class="icon"><i class="fas fa-spinner fa-spin"></i></span><span>Submitting...</span>';
+          submitBtn.disabled = true;
+
+          fetch(scriptURL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then(() => {
+              const messageDiv = document.getElementById("message");
+              messageDiv.className = "message is-success";
+              messageDiv.textContent = "Kit mark successfully submitted!";
+              messageDiv.style.display = "block";
+              form.reset();
+              
+              // Reset kit mark buttons
+              document.querySelectorAll("#kit-mark-buttons button").forEach((btn) => btn.classList.remove("active"));
+              document.getElementById("kit-mark-value").value = '';
+              
+              // Hide message after 5 seconds
+              setTimeout(() => {
+                messageDiv.style.display = 'none';
+              }, 5000);
+            })
+            .catch((error) => {
+              const messageDiv = document.getElementById("message");
+              messageDiv.className = "message is-danger";
+              messageDiv.textContent = "There was an issue submitting your form.";
+              messageDiv.style.display = "block";
+              console.error(error);
+              
+              // Hide message after 5 seconds
+              setTimeout(() => {
+                messageDiv.style.display = 'none';
+              }, 5000);
+            })
+            .finally(() => {
+              // Restore submit button
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+            });
+        });
+      });
+    </script>
+    
+    <style>
+      .footer {
+        background-color: #cf0553;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+      }
+    </style>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>BHS Sports Hub</strong> - Barrow Hills School PE Department
+            </p>
+            <p>
+                Central hub for managing results, monitoring progress, and supporting team performance.
+            </p>
+        </div>
+    </footer>
+
+  </body>
+</html> 

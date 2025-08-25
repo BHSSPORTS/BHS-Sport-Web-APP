@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Team Sheets</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Your existing CSS styles here */
+  </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Mobile Safe Zone CSS -->
+    <link rel="stylesheet" href="../safe-zone.css" />
+    <style>
+      /* General Styles */
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+h1.title {
+        color: #cf0553;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+.hero {
+    background-image: url('https://www.barrowhills.org/wp-content/uploads/2024/12/Barrow-Hills-296-768x768.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    min-height: 150px; /* Minimum height for the section */
+    max-height: 200px; /* Maximum height to ensure it doesn't get too large */
+    display: flex; /* Flexbox for centering content */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    overflow: hidden; /* Ensures content doesn't overflow beyond max-height */
+}
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for better text visibility */
+    z-index: 0;
+  }
+
+  .hero-body {
+    position: relative;
+    z-index: 1; /* Ensure content is above the overlay */
+text-align: center; /* Center text */
+    padding: 10px; /* Minimal padding for spacing */
+  }
+
+  .hero .title,
+  .hero .subtitle {
+    color: white;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds a subtle shadow for better readability */
+  }
+
+
+      .team-footer {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .dropdown {
+        margin-bottom: 20px;
+        text-align: center;
+margin-top: 20px;
+      }
+
+      .dropdown select {
+        font-size: 1.2em;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      /* Team Sheet Styling */
+.team {
+  display: none;
+  text-align: center;
+  border: 5px solid #cf0553;
+  border-radius: 12px;
+  margin: 0 auto;
+  width: 794px; /* A4 width in pixels */
+  height: 1123px; /* A4 height in pixels */
+  padding: 20px;
+  background: white; /* Full white background */
+  box-shadow: none; /* No shadow for cleaner PDF */
+  page-break-after: always;
+  position: relative;
+  box-sizing: border-box; /* Include padding/border in dimensions */
+}
+
+.team.active {
+  display: block;
+}
+
+.team h2 {
+  color: #cf0553;
+  font-size: 2.2em; /* Scaled down slightly */
+  margin: 5px 0 15px 0;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #004080;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.team img {
+  max-width: 180px; /* Scaled down slightly */
+  margin: 10px auto 5px auto;
+  display: block;
+}
+
+.team h3 {
+  margin: 15px 0;
+  font-size: 1.4em; /* Scaled down slightly */
+  color: #333;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.team p {
+  margin: 8px 0;
+  font-size: 1em; /* Scaled down slightly */
+  color: #555;
+  line-height: 1.5em;
+}
+
+.team ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px auto;
+  text-align: center;
+}
+
+.team ul li {
+  background: none;
+  margin: 5px 0;
+  padding: 8px; /* Reduced padding */
+  font-size: 1.2em; /* Scaled down slightly */
+  font-weight: bold; /* Make the names bold */
+  color: #cf0553;
+  text-align: center;
+  text-transform: uppercase; /* Optional: Make names uppercase */
+  border-bottom: 1px solid #ddd; /* Light grey underline */
+}
+
+.team-footer {
+  margin-top: 20px;
+  font-size: 0.9em; /* Scaled down slightly */
+  color: #666;
+  border-top: 2px solid #004080;
+  padding-top: 10px;
+}
+
+.team:before {
+  content: "TEAM SHEET";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #cf0553;
+  background: white;
+  padding: 5px 20px;
+  border: 3px solid #cf0553;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+
+
+/* Ensure footer fits on A4 */
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #f4f6f9;
+  color: #cf0553;
+  width: 100%; /* Full-width footer */
+}
+
+footer a {
+  color: #cf0553;
+  text-decoration: underline;
+}
+
+      .download-button-container {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .download-button-container button {
+        background-color: #cf0553;
+        color: white;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .download-button-container button:hover {
+        background-color: #45a049;
+      }
+/* Spinner Styling */
+.spinner {
+  display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent overlay */
+  z-index: 1000;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-circle {
+  border: 6px solid #e0e0e0;
+  border-top: 6px solid #cf0553; /* Red for the spinning color */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.spinner p {
+  font-family: "Poppins", sans-serif;
+  color: #cf0553; /* Red font */
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.team-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 10px 20px; /* 10px row gap, 20px column gap */
+  margin: 20px auto; /* Add space around the section */
+  text-align: left; /* Align text to the left */
+  font-size: 1.1em; /* Slightly larger font */
+}
+
+.team-details div {
+  background: #f8f8f8; /* Light grey background */
+  padding: 5px 10px; /* Add space inside each cell */
+  border-radius: 4px; /* Rounded corners */
+  color: #cf0553; /* Match the red theme color */
+}
+
+.player-list {
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+  text-align: center; /* Center align player names */
+  font-size: 0.8em;
+}
+.player-list li {
+  margin: 3px 0;
+  font-weight: bold;
+  color: #cf0553;
+  text-transform: uppercase;
+}
+.change-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 10px 20px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.change-details div {
+  background: #f8f8f8;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #cf0553;
+}
+/* General Mobile Styling */
+@media screen and (max-width: 768px) {
+  .team {
+    width: 100%; /* Full width on smaller screens */
+    height: auto; /* Allow height to adjust based on content */
+    padding: 15px; /* Reduce padding */
+    border: 3px solid #cf0553; /* Slightly thinner border */
+    border-radius: 8px; /* Adjust rounded corners */
+    margin: 10px auto; /* Center and add spacing */
+    box-shadow: none; /* Remove any shadow for cleaner mobile display */
+  }
+
+  .team h2 {
+    font-size: 1.8em; /* Reduce title size */
+    margin: 10px 0; /* Reduce spacing */
+  }
+
+  .team img {
+    max-width: 120px; /* Reduce logo size */
+    margin: 5px auto; /* Adjust spacing */
+  }
+
+  .team-details,
+  .change-details {
+    grid-template-columns: 1fr; /* Stack grid items vertically */
+    gap: 5px; /* Smaller gap */
+    font-size: 0.9em; /* Reduce font size */
+    margin: 10px auto; /* Adjust margin */
+  }
+
+  .team-details div,
+  .change-details div {
+    padding: 5px; /* Reduce padding in grid cells */
+    text-align: center; /* Center text */
+    background: #f9f9f9; /* Light grey background */
+    border-radius: 4px; /* Slightly rounded corners */
+  }
+
+  .player-list {
+    font-size: 1em; /* Adjust player names font size */
+    margin: 10px 0; /* Reduce spacing */
+  }
+
+  .player-list li {
+    margin: 3px 0; /* Adjust spacing between names */
+  }
+
+  .team-footer {
+    font-size: 0.8em; /* Reduce footer font size */
+    margin-top: 10px; /* Adjust spacing */
+    padding-top: 5px; /* Reduce padding */
+  }
+}
+
+/* Mobile Adjustments for Main Page */
+@media screen and (max-width: 768px) {
+  header {
+    padding: 10px; /* Reduce header padding */
+  }
+
+  .description {
+    font-size: 1em; /* Reduce description font size */
+    margin-bottom: 10px; /* Adjust spacing */
+  }
+
+  .dropdown select {
+    font-size: 1em; /* Smaller dropdown font size */
+    padding: 5px 8px; /* Reduce dropdown padding */
+  }
+
+  .download-button-container {
+    margin-bottom: 20px; /* Adjust spacing below button */
+  }
+
+  .download-button-container button {
+    padding: 8px 15px; /* Reduce button padding */
+    font-size: 1em; /* Smaller button font size */
+  }
+}
+    </style>
+    <script <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  </head>
+  <body>
+   <!-- Hero Section -->
+<section class="hero is-large">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title has-text-white">Team Sheets</h1>
+      <p class="subtitle has-text-white">Up to date Team Sheets, changing weekly.
+      </p>
+    </div>
+  </div>
+</section>
+<div class="container section">
+    <div class="container">
+      <!-- Dropdown to Select a Team -->
+      <div class="dropdown">
+        <label for="teamSelector">Select a Team:</label>
+        <select id="teamSelector">
+          <option value="">-- Choose a Team --</option>
+        </select>
+      </div>
+
+<div class="dropdown">
+  <label for="teacherSelector">Filter by Teacher:</label>
+  <select id="teacherSelector">
+    <option value="">-- All Teachers --</option>
+  </select>
+</div>
+
+
+      <!-- Download Button -->
+      <div class="download-button-container">
+        <button onclick="downloadPDF()">Download All Team Sheets</button>
+      </div>
+
+      <!-- Team Sheets Container -->
+      <div id="teams-container"></div>
+    </div>
+    <script>
+      // Fetch data from Google Apps Script Web App URL
+      const fetchTeams = async () => {
+  const url =
+    "https://script.google.com/macros/s/AKfycbzvA70dCV-N2y4XX7hKU9edyPiN8mzsMguIsMqTF9CMihRb2FsNsYMu35auTQBSVld_lQ/exec"; // Replace with your deployed web app URL
+  try {
+    const response = await fetch(url);
+    const teams = await response.json();
+
+    // Populate the team selector
+    const teamSelector = document.getElementById("teamSelector");
+    teams.forEach((team, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = team.name;
+      teamSelector.appendChild(option);
+    });
+
+// Add the getDayOfWeek function
+  function getDayOfWeek(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { weekday: 'long' }); // e.g., 'Wednesday'
+  }
+
+  // Add the formatDate function
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", options); // e.g., '8 January 2025'
+  }
+
+
+    // Populate the teacher selector with unique teacher names
+    const teacherSelector = document.getElementById("teacherSelector");
+    const uniqueTeachers = [...new Set(teams.map(team => team.staff))]; // Get unique teacher names
+    uniqueTeachers.forEach(teacher => {
+      const option = document.createElement("option");
+      option.value = teacher;
+      option.textContent = teacher;
+      teacherSelector.appendChild(option);
+    });
+
+    // Populate the teams container
+    const container = document.getElementById("teams-container");
+    teams.forEach((team, index) => {
+      const teamDiv = document.createElement("div");
+      teamDiv.classList.add("team");
+      teamDiv.id = `team-${index}`;
+
+      let footerMessage = "Prepared by the Sports Department";
+      if (team.name.toLowerCase().includes("girls")) {
+        footerMessage = "Any problems please speak to Mrs Burnett";
+      } else if (team.name.toLowerCase().includes("boys")) {
+        footerMessage = "Any problems please speak to Mr Mullins";
+      }
+
+      teamDiv.innerHTML = `
+    <img src="https://static.wixstatic.com/media/762576_f4198f8a54f74e17bc1582edccf914a2.gif" alt="Logo" />
+    <h2>${team.name}</h2>
+    
+    <!-- Team Details Grid -->
+<div class="team-details">
+  <div><strong>Sport:</strong> ${team.sport}</div>
+  <div><strong>Opponent:</strong> ${team.opponent}</div>
+  <div><strong>Day:</strong> ${getDayOfWeek(team.date)}</div>
+  <div><strong>Date:</strong> ${formatDate(team.date)}</div>
+  <div><strong>Start Time:</strong> ${team.startTime}</div>
+  <div><strong>Venue:</strong> ${team.venue}</div>
+</div>
+    <!-- Player List -->
+    <ul class="player-list">
+      ${team.players.map(player => `<li>${player}</li>`).join("")}
+    </ul>
+
+    <!-- Change Section Grid -->
+    <div class="change-details">
+      <div><strong>Change:</strong> ${team.change}</div>
+      <div><strong>Leave:</strong> ${team.leave}</div>
+      <div><strong>Back at BHS:</strong> ${team.backAtBHS}</div>
+      <div><strong>Teacher:</strong> ${team.staff}</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="team-footer">
+      <p><em>${footerMessage}</em></p>
+    </div>
+  `;
+      container.appendChild(teamDiv);
+    });
+
+    // Add event listener for team filter
+    teamSelector.addEventListener("change", () => filterTeams(teams));
+
+    // Add event listener for teacher filter
+    document.getElementById("teacherSelector").addEventListener("change", () => filterTeams(teams));
+  } catch (error) {
+    console.error("Error fetching team data:", error);
+  }
+};
+
+function filterTeams(teams) {
+  const selectedTeamIndex = document.getElementById("teamSelector").value;
+  const selectedTeacher = document.getElementById("teacherSelector").value;
+
+
+  // Filter teams based on selected filters
+  teams.forEach((team, index) => {
+    const teamDiv = document.getElementById(`team-${index}`);
+    const matchesTeam = selectedTeamIndex === "" || selectedTeamIndex == index;
+    const matchesTeacher = selectedTeacher === "" || team.staff === selectedTeacher;
+
+    if (matchesTeam && matchesTeacher) {
+      teamDiv.classList.add("active");
+    } else {
+      teamDiv.classList.remove("active");
+    }
+  });
+}
+
+
+      // Helper function to format date strings
+      function formatDate(dateString) {
+        if (!dateString) return "";
+        const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-GB", options);
+      }
+
+      // Download all team sheets as a PDF
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF("p", "mm", "a4"); // A4 portrait mode
+
+// Show the loading spinner
+  const spinner = document.getElementById("loading-spinner");
+  spinner.style.display = "flex";
+
+  try {
+    const teams = document.querySelectorAll(".team");
+
+    if (teams.length === 0) {
+      alert("No team sheets to download.");
+      return;
+    }
+
+    for (let i = 0; i < teams.length; i++) {
+      const team = teams[i];
+
+      // Clone the team and wrap it in a padded container
+      const paddedContainer = document.createElement("div");
+      paddedContainer.style.paddingTop = "30px"; // Add padding to avoid clipping
+paddedContainer.style.paddingBottom = "10px";
+      paddedContainer.style.backgroundColor = "white";
+      paddedContainer.style.width = "794px"; // A4 width in pixels
+      paddedContainer.style.minHeight = "1123px"; // A4 height in pixels
+      paddedContainer.style.display = "flex";
+      paddedContainer.style.alignItems = "center";
+      paddedContainer.style.justifyContent = "center";
+
+      const clonedTeam = team.cloneNode(true);
+      clonedTeam.style.margin = "0";
+      clonedTeam.style.display = "block";
+
+      paddedContainer.appendChild(clonedTeam);
+      document.body.appendChild(paddedContainer); // Temporarily add to the DOM
+
+      // Capture the padded container
+      const canvas = await html2canvas(paddedContainer, {
+        scale: 2, // High resolution
+        useCORS: true,
+      });
+
+      // Remove the container after capturing
+      document.body.removeChild(paddedContainer);
+
+      // Convert the canvas to an image
+      const imgData = canvas.toDataURL("image/png");
+
+      // Calculate dimensions to fit the content onto A4
+      const imgWidth = 180; // A4 width in mm minus margins
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Center the image on the A4 page
+      const xOffset = (210 - imgWidth) / 2; // Center horizontally
+      const yOffset = 10; // Center vertically
+
+      // Add the image to the PDF
+      pdf.addImage(imgData, "PNG", xOffset, yOffset, imgWidth, imgHeight);
+
+      // Add a new page if it's not the last team
+      if (i < teams.length - 1) {
+        pdf.addPage();
+      }
+    }
+
+    // Save the PDF
+    pdf.save("Team_Sheets.pdf");
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    alert("An error occurred while generating the PDF.");
+  } finally {
+    // Hide the spinner
+    spinner.style.display = "none";
+  }
+}
+
+
+      // Load teams when the page loads
+      window.onload = fetchTeams;
+    </script>
+<div id="loading-spinner" class="spinner">
+  <div class="spinner-circle"></div>
+  <p>Generating PDF...</p>
+</div>
+
+  </body>
+</html>
