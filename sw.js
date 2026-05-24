@@ -2,8 +2,6 @@
 const CACHE_NAME = 'shortener-cache-v1';
 const ASSETS = [
   './',
-  './index.html',
-  './redirect.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
