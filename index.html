@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>Redirecting to Dashboard...</title>
+  <title>Redirecting...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: #0b0f19;
       color: #f8fafc;
       display: flex;
@@ -17,6 +18,7 @@
       margin: 0;
       overflow: hidden;
     }
+
     .container {
       text-align: center;
       padding: 2.5rem 2rem;
@@ -28,12 +30,14 @@
       max-width: 400px;
       width: 90%;
     }
+
     .spinner {
       position: relative;
       width: 56px;
       height: 56px;
       margin: 0 auto 24px auto;
     }
+
     .spinner-ring {
       position: absolute;
       width: 100%;
@@ -41,6 +45,7 @@
       border: 4px solid rgba(99, 102, 241, 0.1);
       border-radius: 50%;
     }
+
     .spinner-dot {
       position: absolute;
       width: 100%;
@@ -50,10 +55,17 @@
       border-radius: 50%;
       animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
+
     h1 {
       font-size: 1.5rem;
       margin: 0 0 10px 0;
@@ -62,28 +74,139 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     p {
       font-size: 0.9rem;
       color: #94a3b8;
-      margin: 0;
+      margin: 0 0 20px 0;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .error-text {
+      color: #f43f5e;
+      display: none;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: #6366f1;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: none;
+    }
+
+    .btn:hover {
+      background: #4f46e5;
     }
   </style>
-  <script>
-    // Configuration: Redirect directly to your Google Apps Script Dashboard
-    const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/barrowhills.org/s/AKfycbyt5vDQoRvSHRSqXNjT1n50UgH7ERNtXpBubS6OTF3I/dev';
-    
-    // Redirect immediately
-    window.location.replace(APPS_SCRIPT_URL);
-  </script>
 </head>
+
 <body>
   <div class="container">
-    <div class="spinner">
+    <div id="loader" class="spinner">
       <div class="spinner-ring"></div>
       <div class="spinner-dot"></div>
     </div>
-    <h1>Opening Dashboard</h1>
-    <p>Connecting to URL Shortener Admin Panel...</p>
+    <h1 id="status-title">Redirecting you</h1>
+    <p id="status-message">Locating destination URL...</p>
+    <a href="#" id="retry-btn" class="btn">Return Home</a>
   </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURATION: Paste your Web App URL here!
+    // ==========================================
+    const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/barrowhills.org/s/AKfycbyt5vDQoRvSHRSqXNjT1n50UgH7ERNtXpBubS6OTF3I/dev';
+
+    // Parse alias from URL (supports either "?id=alias" or "/#alias")
+    function getAlias() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let alias = urlParams.get('id');
+
+      if (!alias && window.location.hash) {
+        alias = window.location.hash.substring(1); // removes the "#"
+      }
+
+      // Fallback: parse last segment of path if URL rewriting is configured
+      if (!alias) {
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        if (pathSegments.length > 0) {
+          alias = pathSegments[pathSegments.length - 1];
+        }
+      }
+
+      return alias;
+    }
+
+    async function handleRedirect() {
+      const alias = getAlias();
+      const statusTitle = document.getElementById('status-title');
+      const statusMsg = document.getElementById('status-message');
+      const loader = document.getElementById('loader');
+      const retryBtn = document.getElementById('retry-btn');
+
+      if (!alias) {
+        loader.style.display = 'none';
+        statusTitle.innerText = 'Custom URL Shortener';
+        statusTitle.style.color = '#fff';
+        statusMsg.innerText = 'To use this shortener, visit a path like: yourdomain.com/?id=your-alias';
+        return;
+      }
+
+      try {
+        // Fetch original URL from Apps Script via background API call
+        const fetchUrl = `${APPS_SCRIPT_URL}?action=get&alias=${encodeURIComponent(alias)}`;
+
+        const response = await fetch(fetchUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+
+        if (data.success && data.url) {
+          statusMsg.innerHTML = `Connecting to:<br/><strong>${escapeHtml(data.url)}</strong>`;
+          window.location.href = data.url;
+        } else {
+          showError('Alias Not Found', `The custom alias "${escapeHtml(alias)}" does not exist in our database.`);
+        }
+      } catch (err) {
+        console.error(err);
+        showError('Redirection Error', 'Could not communicate with the database. Please verify configurations.');
+      }
+    }
+
+    function showError(title, message) {
+      document.getElementById('loader').style.display = 'none';
+      const statusTitle = document.getElementById('status-title');
+      statusTitle.innerText = title;
+      statusTitle.style.color = '#f43f5e';
+      document.getElementById('status-message').innerText = message;
+
+      const retryBtn = document.getElementById('retry-btn');
+      retryBtn.style.display = 'inline-block';
+      retryBtn.href = window.location.origin;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Run redirection
+    handleRedirect();
+  </script>
 </body>
+
 </html>
