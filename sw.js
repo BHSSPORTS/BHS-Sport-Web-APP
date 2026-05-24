@@ -1,5 +1,5 @@
 // Minimal Service Worker to enable PWA Installation and custom home screen icons
-const CACHE_NAME = 'shortener-cache-v1';
+const CACHE_NAME = 'shortener-cache-v2';
 const ASSETS = [
   './',
   './manifest.json',
