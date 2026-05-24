@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Redirecting...</title>
+  <title>Redirecting to Dashboard...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <!-- PWA Manifest & App Capability -->
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -23,7 +23,7 @@
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #0b0f19;
       color: #f8fafc;
       display: flex;
@@ -82,11 +82,23 @@
     p {
       font-size: 0.9rem;
       color: #94a3b8;
-      margin: 0 0 20px 0;
-      word-break: break-all;
-      line-height: 1.4;
+      margin: 0;
     }
   </style>
+  <script>
+    // Register PWA service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+
+    // Configuration: Redirect directly to your Google Apps Script Dashboard
+    const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/barrowhills.org/s/AKfycbyt5vDQoRvSHRSqXNjT1n50UgH7ERNtXpBubS6OTF3I/dev';
+    
+    // Redirect immediately
+    window.location.replace(APPS_SCRIPT_URL);
+  </script>
 </head>
 <body>
   <div class="container">
@@ -97,22 +109,5 @@
     <h1>Opening Dashboard</h1>
     <p>Connecting to URL Shortener Admin Panel...</p>
   </div>
-
-  <script>
-    // Register PWA service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then((reg) => console.log('PWA Service Worker registered.', reg))
-          .catch((err) => console.error('Service Worker registration failed.', err));
-      });
-    }
-
-    // Configuration: Redirect directly to your Google Apps Script Dashboard
-    const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/barrowhills.org/s/AKfycbyt5vDQoRvSHRSqXNjT1n50UgH7ERNtXpBubS6OTF3I/dev';
-    
-    // Redirect immediately
-    window.location.replace(APPS_SCRIPT_URL);
-  </script>
 </body>
 </html>
