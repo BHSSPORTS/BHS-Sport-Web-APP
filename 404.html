@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #0b0f19;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      max-width: 400px;
+      width: 90%;
+    }
+    .spinner {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 24px auto;
+    }
+    .spinner-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid rgba(99, 102, 241, 0.1);
+      border-radius: 50%;
+    }
+    .spinner-dot {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid transparent;
+      border-top-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+      background: linear-gradient(135deg, #a5b4fc, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin: 0 0 20px 0;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: #6366f1;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="loader" class="spinner">
+      <div class="spinner-ring"></div>
+      <div class="spinner-dot"></div>
+    </div>
+    <h1 id="status-title">Redirecting you</h1>
+    <p id="status-message">Locating your destination link...</p>
+    <a href="#" id="home-btn" class="btn" style="display: none;">Go to Dashboard</a>
+  </div>
+
+  <script>
+    // Configuration
+    const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/barrowhills.org/s/AKfycbxIBvTGet8gNlWgRgKESCbOzI-AbM5I0GGCJvcs2cIeoTIfW7FOA5-_qADHATevFuRt/exec';
+
+    // Extract alias from path (e.g. "/my-alias" becomes "my-alias")
+    function getAliasFromPath() {
+      const path = window.location.pathname;
+      return path.replace(/^\/|\/$/g, ''); // strip leading/trailing slashes
+    }
+
+    async function doRedirect() {
+      const alias = getAliasFromPath();
+      const statusTitle = document.getElementById('status-title');
+      const statusMsg = document.getElementById('status-message');
+      const loader = document.getElementById('loader');
+      const homeBtn = document.getElementById('home-btn');
+
+      if (!alias) {
+        // If there's no alias, they visited the root domain
+        loader.style.display = 'none';
+        statusTitle.innerText = 'Custom URL Shortener';
+        statusTitle.style.color = '#fff';
+        statusMsg.innerText = 'Visit yourdomain.com/your-alias to redirect.';
+        return;
+      }
+
+      try {
+        const fetchUrl = `${APPS_SCRIPT_URL}?action=get&alias=${encodeURIComponent(alias)}`;
+        const response = await fetch(fetchUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
+        
+        if (data.success && data.url) {
+          statusMsg.innerHTML = `Connecting to:<br/><strong>${escapeHtml(data.url)}</strong>`;
+          window.location.replace(data.url);
+        } else {
+          showError('Link Not Found', `The alias "/${escapeHtml(alias)}" does not exist in the database.`);
+        }
+      } catch (err) {
+        console.error(err);
+        showError('Redirection Error', 'Could not connect to the link database.');
+      }
+    }
+
+    function showError(title, message) {
+      document.getElementById('loader').style.display = 'none';
+      const statusTitle = document.getElementById('status-title');
+      statusTitle.innerText = title;
+      statusTitle.style.color = '#f43f5e';
+      document.getElementById('status-message').innerText = message;
+      
+      const homeBtn = document.getElementById('home-btn');
+      homeBtn.style.display = 'inline-block';
+      homeBtn.href = window.location.origin;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    doRedirect();
+  </script>
+</body>
+</html>
